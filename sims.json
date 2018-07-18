@@ -1,0 +1,263 @@
+{
+	"Pot": {
+		"NitrogenResponseOn": false,
+		"WaterDeficitResponseOn": false,
+		"UseAutomaticIrrigation": false,
+		"UseNMinMineralFertilisingMethod": false,
+		"FrostKillOn": false,
+		"output": [
+			"yearly", [
+				"Year", 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["NLeach", "SUM"], 
+				["ActNup", "SUM"], 
+				["NFert", "SUM"], 
+				["NOrgFert", "SUM"],
+				["Act_ET", "SUM"], 
+				["Act_Ev", "SUM"],
+				["N2O", "SUM"],
+				["PercolationRate", 20, "SUM"],
+				["Tavg", "AVG"],
+				["Precip", "SUM"],
+				["Clay", [1, 3, "AVG"], "AVG"],
+				["Silt", [1, 3, "AVG"], "AVG"],
+				["Sand", [1, 3, "AVG"], "AVG"]
+			],
+			"crop", [
+				["Year", "LAST"], 
+				"Crop", 
+				["Date", "FIRST"], 
+				["Date", "LAST"], 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"],
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["Yield", "LAST"],
+				["AbBiom", "LAST"],
+				["LAI", "MAX"],
+				["Stage", "LAST"],
+				["RelDev", "LAST"], 
+				["NLeach", "SUM"], 
+				["ActNup", "SUM"], 
+				["NFert", "SUM"], 
+				["NOrgFert", "SUM"],
+				["Act_ET", "SUM"], 
+				["Act_Ev", "SUM"],
+				["N2O", "SUM"], 
+				["Nstress", "AVG"],
+				["TraDef", "AVG"],
+				["PercolationRate", 20, "SUM"],
+				["SecondaryYield", "LAST"],
+				["optCarbonReturnedResidues", "LAST"],
+				["optCarbonExportedResidues", "LAST"],
+				["humusBalanceCarryOver", "LAST"]				
+			],
+
+			{"at": "anthesis"}, [
+				["Year"],
+				["Crop"],
+				["DOY|anthesis"]
+			],
+
+			{"at": "maturity"}, [
+				["Year"],
+				["Crop"],
+				["DOY|matur"]
+			],
+
+			{"at": "Harvest"}, [
+				["Year"],
+				["Crop"],
+				["DOY|harvest"]
+			]			
+		]
+	},
+	"WL.NL.irr": {
+		"NitrogenResponseOn": true,
+		"WaterDeficitResponseOn": true,
+		"UseAutomaticIrrigation": true,
+		"UseNMinMineralFertilisingMethod": true,
+		"FrostKillOn": false,
+		"output": [
+			"yearly", [
+				"Year", 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["NLeach", "SUM"], 
+				["ActNup", "SUM"], 
+				["NFert", "SUM"], 
+				["N2O", "SUM"], 
+				["Irrig", "SUM"]
+			],
+			"crop", [
+				["Year", "LAST"], 
+				"Crop", 
+				["Date", "FIRST"], 
+				["Date", "LAST"], 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["Yield", "LAST"], 
+				["NLeach", "SUM"], 
+				["ActNup", "SUM"], 
+				["NFert", "SUM"], 
+				["N2O", "SUM"], 
+				["Nstress", "AVG"], 
+				["Irrig", "SUM"],
+				["SecondaryYield", "LAST"]
+			]
+		]
+	},
+	"WL.NL.rain": {
+		"NitrogenResponseOn": true,
+		"WaterDeficitResponseOn": true,
+		"UseAutomaticIrrigation": false,
+		"UseNMinMineralFertilisingMethod": true,
+		"FrostKillOn": false,
+		"output": [
+			"yearly", [
+				"Year", 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["NLeach", "SUM"], 
+				["ActNup", "SUM"], 
+				["NFert", "SUM"],
+				["NOrgFert", "SUM"], 
+				["Act_ET", "SUM"], 
+				["Act_Ev", "SUM"],
+				["N2O", "SUM"],
+				["PercolationRate", 20, "SUM"],
+				["Tavg", "AVG"],
+				["Precip", "SUM"],
+				["Clay", [1, 3, "AVG"], "AVG"],
+				["Silt", [1, 3, "AVG"], "AVG"],
+				["Sand", [1, 3, "AVG"], "AVG"]
+			],
+			"crop", [
+				["Year", "LAST"], 
+				"Crop", 
+				["Date", "FIRST"], 
+				["Date", "LAST"], 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"],
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["Yield", "LAST"],
+				["AbBiom", "LAST"],
+				["LAI", "MAX"],
+				["Stage", "LAST"],
+				["RelDev", "LAST"], 
+				["NLeach", "SUM"], 
+				["ActNup", "SUM"], 
+				["NFert", "SUM"],
+				["NOrgFert", "SUM"], 
+				["Act_ET", "SUM"], 
+				["Act_Ev", "SUM"],
+				["N2O", "SUM"], 
+				["Nstress", "AVG"],
+				["TraDef", "AVG"],
+				["PercolationRate", 20, "SUM"],
+				["SecondaryYield", "LAST"],
+				["optCarbonReturnedResidues", "LAST"],
+				["optCarbonExportedResidues", "LAST"],
+				["humusBalanceCarryOver", "LAST"]				
+			],
+
+			{"at": "anthesis"}, [
+				["Year"],
+				["Crop"],
+				["DOY|anthesis"]
+			],
+
+			{"at": "maturity"}, [
+				["Year"],
+				["Crop"],
+				["DOY|matur"]
+			],
+
+			{"at": "Harvest"}, [
+				["Year"],
+				["Crop"],
+				["DOY|harvest"]
+			]			
+		]
+	},
+	"WL.irr": {
+		"NitrogenResponseOn": false,
+		"WaterDeficitResponseOn": true,
+		"UseAutomaticIrrigation": true,
+		"UseNMinMineralFertilisingMethod": false,
+		"FrostKillOn": false,
+		"output": [
+			"yearly", [
+				"Year", 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["Act_ET", "SUM"], 
+				["Act_Ev", "SUM"], 
+				["PercolationRate", 20, "SUM"], 
+				["Irrig", "SUM"]
+			],
+			"crop", [
+				["Year", "LAST"], 
+				"Crop", 
+				["Date", "FIRST"], 
+				["Date", "LAST"], 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["Yield", "LAST"], 
+				["Act_ET", "SUM"], 
+				["Act_Ev", "SUM"], 
+				["PercolationRate", 20, "SUM"], 
+				["Irrig", "SUM"],
+				["SecondaryYield", "LAST"]
+			]
+		]
+	},
+	"WL.rain": {
+		"NitrogenResponseOn": false,
+		"WaterDeficitResponseOn": true,
+		"UseAutomaticIrrigation": false,
+		"UseNMinMineralFertilisingMethod": false,
+		"FrostKillOn": false,
+		"output": [
+			"yearly", [
+				"Year", 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["Act_ET", "SUM"],
+				["Act_Ev", "SUM"], 
+				["PercolationRate", 20, "SUM"]
+			],
+			"crop", [
+				["Year", "LAST"], 
+				"Crop", 
+				["Date", "FIRST"], 
+				["Date", "LAST"], 
+				["SOC", [1, 3, "AVG"], "FIRST"], 
+				["SOC", [1, 3, "AVG"], "LAST"], 
+				["Rh", "SUM"], 
+				["NEP", "SUM"], 
+				["Yield", "LAST"], 
+				["Act_ET", "SUM"], 
+				["Act_Ev", "SUM"], 
+				["PercolationRate", 20, "SUM"],
+				["SecondaryYield", "LAST"]
+			]
+		]
+	}
+}

@@ -1,0 +1,3024 @@
+{
+    "146": {
+        "1120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-20", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-21", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-08-31", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-01", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "1110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-20", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-21", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-18", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "1130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-27", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-28", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-14", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "147": {
+        "3120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-20", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-21", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-08-31", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-01", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "3130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-27", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-28", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-14", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "3110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-20", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-21", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-18", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "142": {
+        "6130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-15", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-16", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-03-31", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-01", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SBee"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-11-05", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SBee"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-15", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-16", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-23", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-24", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "PO"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-16", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "PO"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "6110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-15", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-16", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-26", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-27", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-04", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "6120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-15", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-16", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-14", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-27", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-28", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "143": {
+        "5120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-16", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-17", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "5110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-14", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "5130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-14", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "141": {
+        "8110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-30", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-31", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-26", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-27", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-04", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-03-31", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-01", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SBee"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-11-05", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SBee"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "8130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-30", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-31", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-30", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-31", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-03-31", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-01", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SBee"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-11-05", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SBee"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "8120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-30", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-31", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-30", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-31", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-23", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-24", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "PO"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-16", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "PO"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "191": {
+        "4120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-16", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-17", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-17", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-27", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-28", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "4110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-16", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-17", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-17", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-08-31", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-01", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-22", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "148": {
+        "2110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-26", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-27", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-04", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-15", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-16", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "2120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-15", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-16", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-20", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-26", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-27", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-04", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-27", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-28", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "2130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-27", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-28", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-01", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "GM"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "134": {
+        "7130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-03-30", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-03-31", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SB"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-07-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-26", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "7110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-16", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-17", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-17", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-08-31", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-01", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "7120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-10", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-16", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-17", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-17", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-26", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, 
+    "129": {
+        "9120": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-16", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-17", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-17", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-04-24", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-04-25", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-26", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SM"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "9110": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-03-30", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-03-31", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SB"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-07-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "SB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-10", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-11", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WRa"
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "9130": [
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WW"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-09-16", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-09-17", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-07-17", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WB"
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "worksteps": [
+                    {
+                        "date": "0000-10-03", 
+                        "incorporation": false, 
+                        "amount": [
+                            0, 
+                            "kg"
+                        ], 
+                        "type": "OrganicFertilization", 
+                        "parameters": [
+                            "ref", 
+                            "fert-params", 
+                            "org_fert"
+                        ]
+                    }, 
+                    {
+                        "date": "0000-10-04", 
+                        "type": "Sowing", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }, 
+                    {
+                        "date": "0001-08-15", 
+                        "type": "Harvest", 
+                        "crop": [
+                            "ref", 
+                            "crops", 
+                            "WTr"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

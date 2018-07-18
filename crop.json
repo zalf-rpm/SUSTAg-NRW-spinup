@@ -1,0 +1,981 @@
+  {
+	"crops": {
+		"SM": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/maize.json"],
+					"MaximumTemperatureForAssimilation": 46
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/silage-maize.json"],
+					"MaxAssimilationRate": 70,
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.32,
+							"yieldPercentage": 0.1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.32,
+							"yieldPercentage": 0.1
+						}
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/maize.json"]
+		},
+		"WW": {
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/wheat.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-wheat.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.15
+						}
+					],
+					"MaxAssimilationRate": 29,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.13,
+							0.2,
+							0.57,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/wheat.json"]
+		},
+		"WB": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/barley.json"],
+					"OrganGrowthRespiration": [
+						0.306,
+						0.315,
+						0.338,
+						0.291
+					],
+					"OrganMaintenanceRespiration": [
+						0.015,
+						0.03,
+						0.015,
+						0.01
+					]
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-barley.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+							{
+								"organId": 2,
+								"type": "YieldComponent",
+								"yieldDryMatter": 0.86,
+								"yieldPercentage": 1
+							},
+							{
+								"organId": 3,
+								"type": "YieldComponent",
+								"yieldDryMatter": 0.86,
+								"yieldPercentage": 1
+							},
+							{
+								"organId": 4,
+								"type": "YieldComponent",
+								"yieldDryMatter": 0.86,
+								"yieldPercentage": 0.15
+							}
+					],
+					"MaxAssimilationRate": 26,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.15,
+							0.2,
+							0.55,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					],
+					"__StageTemperatureSum": [
+						[
+							108,
+							550,
+							350,
+							138,
+							300,
+							25
+						],
+						"°C d"
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/barley.json"]
+		},
+		"SB": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/barley.json"],
+					"OrganGrowthRespiration": [
+						0.306,
+						0.315,
+						0.338,
+						0.291
+					],
+					"OrganMaintenanceRespiration": [
+						0.015,
+						0.03,
+						0.015,
+						0.01
+					]
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/spring-barley.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.05
+						}
+					],
+					"MaxAssimilationRate": 26,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.17,
+							0.2,
+							0.53,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/barley.json"]
+		},
+		"WRa": {
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/rape.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-rape.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.35,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.35,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.91,
+							"yieldPercentage": 0.45
+						}
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/rape.json"]
+		},
+		"PO": {			
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/potato.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/moderately-early-potato.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.16,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						}
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/potato.json"]
+		},
+		"SBee": {			
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/sugar-beet.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/sugar-beet-cv.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.16,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						}
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/beet.json"]
+		},
+		"WTr": {			
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/triticale.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-triticale.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.15
+						}
+					],
+					"MaxAssimilationRate": 26,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.13,
+							0.2,
+							0.57,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/triticale.json"]
+		},
+		"GM": {			
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/maize.json"],
+					"MaximumTemperatureForAssimilation": 46
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/grain-maize.json"],
+					"MaxAssimilationRate": 70,
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.22
+						}
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/maize.json"]
+		},
+		"CC-M": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/mustard.json"],
+					"TargetN30": 0,
+					"TargetNSamplingDepth": 0
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/mustard-cv.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForPrimaryYield": [],
+					"OrganIdsForSecondaryYield": []
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/mustard.json"]
+		},
+		"SM_SU": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/maize.json"],
+					"MaximumTemperatureForAssimilation": 46
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/silage-maize.json"],
+					"MaxAssimilationRate": 70,
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.32,
+							"yieldPercentage": 0.1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.32,
+							"yieldPercentage": 0.1
+						}
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/maize.json"]
+		},
+		"WW_SU": {
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/wheat.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-wheat.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.15
+						}
+					],
+					"MaxAssimilationRate": 29,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.13,
+							0.2,
+							0.57,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/wheat.json"]
+		},
+		"WB_SU": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/barley.json"],
+					"OrganGrowthRespiration": [
+						0.306,
+						0.315,
+						0.338,
+						0.291
+					],
+					"OrganMaintenanceRespiration": [
+						0.015,
+						0.03,
+						0.015,
+						0.01
+					]
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-barley.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+							{
+								"organId": 2,
+								"type": "YieldComponent",
+								"yieldDryMatter": 0.86,
+								"yieldPercentage": 1
+							},
+							{
+								"organId": 3,
+								"type": "YieldComponent",
+								"yieldDryMatter": 0.86,
+								"yieldPercentage": 1
+							},
+							{
+								"organId": 4,
+								"type": "YieldComponent",
+								"yieldDryMatter": 0.86,
+								"yieldPercentage": 0.15
+							}
+					],
+					"MaxAssimilationRate": 26,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.15,
+							0.2,
+							0.55,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					],
+					"__StageTemperatureSum": [
+						[
+							108,
+							550,
+							350,
+							138,
+							300,
+							25
+						],
+						"°C d"
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/barley.json"]
+		},
+		"SB_SU": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/barley.json"],
+					"OrganGrowthRespiration": [
+						0.306,
+						0.315,
+						0.338,
+						0.291
+					],
+					"OrganMaintenanceRespiration": [
+						0.015,
+						0.03,
+						0.015,
+						0.01
+					]
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/spring-barley.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.05
+						}
+					],
+					"MaxAssimilationRate": 26,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.17,
+							0.2,
+							0.53,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/barley.json"]
+		},
+		"WRa_SU": {
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/rape.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-rape.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.35,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.35,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.91,
+							"yieldPercentage": 0.45
+						}
+					]
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/rape.json"]
+		},
+		"PO_SU": {			
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/potato.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/moderately-early-potato.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.16,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						}
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/potato.json"]
+		},
+		"SBee_SU": {			
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/sugar-beet.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/sugar-beet-cv.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.16,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						}
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/beet.json"]
+		},
+		"WTr_SU": {			
+			"cropParams": {
+				"species": ["include-from-file", "monica-parameters/projects/sustag/triticale.json"],
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/winter-triticale.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.15
+						}
+					],
+					"MaxAssimilationRate": 26,
+					"AssimilatePartitioningCoeff": [
+						[
+							0.5,
+							0.5,
+							0,
+							0
+						],
+						[
+							0.25,
+							0.4,
+							0.35,
+							0
+						],
+						[
+							0.13,
+							0.2,
+							0.57,
+							0.1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							1
+						],
+						[
+							0,
+							0,
+							0,
+							0
+						]
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/triticale.json"]
+		},
+		"GM_SU": {			
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/maize.json"],
+					"MaximumTemperatureForAssimilation": 46
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/grain-maize.json"],
+					"MaxAssimilationRate": 70,
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForSecondaryYield": [
+						{
+							"organId": 2,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 3,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 1
+						},
+						{
+							"organId": 4,
+							"type": "YieldComponent",
+							"yieldDryMatter": 0.86,
+							"yieldPercentage": 0.22
+						}
+					]
+				}
+			},			
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/maize.json"]
+		},
+		"CC-M_SU": {
+			"cropParams": {
+				"species": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/mustard.json"],
+					"TargetN30": 0,
+					"TargetNSamplingDepth": 0
+				},
+				"cultivar": {
+					"=": ["include-from-file", "monica-parameters/projects/sustag/mustard-cv.json"],
+					"BeginSensitivePhaseHeatStress": 0,
+					"EndSensitivePhaseHeatStress": 0,
+					"OrganIdsForPrimaryYield": [],
+					"OrganIdsForSecondaryYield": []
+				}
+			},
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/mustard.json"]
+		}
+	},
+	
+	"fert-params": {
+		"AN": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"],
+		"org_fert": ["include-from-file", "monica-parameters/organic-fertilisers/PIS.json"]
+	}, 	
+
+	"cropRotation": [
+		
+	],	
+	
+
+	"CropParameters": {
+		"DEFAULT": ["include-from-file", "monica-parameters/general/crop.json"],
+		"__enable_Photosynthesis_WangEngelTemperatureResponse__": false
+	}
+}
