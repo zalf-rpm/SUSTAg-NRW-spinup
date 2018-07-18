@@ -36,6 +36,49 @@ import re
 
 LOCAL_RUN = True
 
+def deltaSOC_perc(SOCini, SOCend):
+    deltaSOC = 0
+    if SOCini > 0:
+        deltaSOC = (SOCend - SOCini) / SOCini * 100
+    return deltaSOC
+
+def retuned_exported_residues(agb, primary_yield, secondary_yield, use_secondary_yields, rootCrop):
+    return_residues = agb
+    if not rootCrop:
+        return_residues -= primary_yield
+    export_residues = 0
+
+    if use_secondary_yields:
+        return_residues -= secondary_yield
+        if return_residues < 0.0001 and return_residues > -0.5:
+            return_residues = 0
+        export_residues += secondary_yield
+
+    return return_residues, export_residues
+
+def is_root_crop(cp):
+    out = False
+    root_cps = ["potato", "sugar beet"]
+    for root_cp in root_cps:
+        if root_cp in cp:
+            out = True
+            break
+    return out
+
+def skip(harvest_date, last_year):
+    skip_it = False
+    harvest_date = datetime.strptime(harvest_date, "%Y-%m-%d")
+    if harvest_date == datetime(last_year, 12, 31):
+        #the crop is harvested early due to the end of the simulation period,
+        #values of this crop should be ignored.
+        skip_it = True
+    return skip_it
+
+def cyclelength(sowing, harvest):
+    sowing = datetime.strptime(sowing, "%Y-%m-%d")
+    harvest = datetime.strptime(harvest, "%Y-%m-%d")
+    return (harvest - sowing).days
+
 def create_year_output(oids, row, col, rotation, prod_level, values, start_recording_out, KA5_txt, soil_type):
     "create year output lines"
     row_col = "{}{:03d}".format(row, col)
@@ -46,16 +89,11 @@ def create_year_output(oids, row, col, rotation, prod_level, values, start_recor
             for iii in range(0, len(oids)):
                 oid = oids[iii]
                 val = values[iii][kkk]
-                if iii == 1:
-                    vals[oid["name"]] = (values[iii+1][kkk] - val) / val * 100 if val > 0 else 0.0
-                elif iii == 2:
-                    continue
+                if isinstance(val, types.ListType):
+                    for val_ in val:
+                        vals[oid["displayName"]] = val_
                 else:
-                    if isinstance(val, types.ListType):
-                        for val_ in val:
-                            vals[oid["name"]] = val_
-                    else:
-                        vals[oid["name"]] = val
+                    vals[oid["displayName"]] = val
 
             if vals.get("Year", 0) >= start_recording_out:
                 out.append([
@@ -63,7 +101,8 @@ def create_year_output(oids, row, col, rotation, prod_level, values, start_recor
                     rotation,
                     prod_level,
                     vals.get("Year", "NA"),
-                    vals.get("SOC", "NA"),
+                    deltaSOC_perc(vals.get("SOCini", 0), vals.get("SOCend", 0)),
+                    vals.get("SOCavg", "NA"),
                     vals.get("Rh", "NA"),
                     vals.get("NEP", "NA"),
                     vals.get("Act_ET", "NA"),
@@ -98,49 +137,11 @@ def create_crop_output(oids, row, col, rotation, prod_level, values, use_seconda
             for iii in range(0, len(oids)):
                 oid = oids[iii]
                 val = values[iii][kkk]
-                if iii == 2:
-                    start = datetime.strptime(val, "%Y-%m-%d")
-                    end = datetime.strptime(values[iii+1][kkk], "%Y-%m-%d")
-                    if end == datetime(last_year, 12, 31):
-                        #the crop is harvested early due to the end of the simulation period,
-                        #values of this crop should be ignored.
-                        vals["skip"] = True
-                    vals[oid["name"]] = (end - start).days
-                elif iii == 3:
-                    continue
-                elif iii == 4:
-                    vals[oid["name"]] = (values[iii+1][kkk] - val) / val * 100 if val > 0 else 0.0
-                elif iii == 5:
-                    continue
+                if isinstance(val, types.ListType):
+                    for val_ in val:
+                        vals[oid["displayName"]] = val_
                 else:
-                    if isinstance(val, types.ListType):
-                        for val_ in val:
-                            vals[oid["name"]] = val_
-                    else:
-                        vals[oid["name"]] = val
-            
-            def retuned_exported_residues(agb, primary_yield, secondary_yield, use_secondary_yields, rootCrop):
-                return_residues = agb
-                if not rootCrop:
-                    return_residues -= primary_yield
-                export_residues = 0
-
-                if use_secondary_yields:
-                    return_residues -= secondary_yield
-                    if return_residues < 0.0001 and return_residues > -0.5:
-                        return_residues = 0
-                    export_residues += secondary_yield
-
-                return return_residues, export_residues
-            
-            def is_root_crop(cp):
-                out = False
-                root_cps = ["potato", "sugar beet"]
-                for root_cp in root_cps:
-                    if root_cp in cp:
-                        out = True
-                        break
-                return out
+                    vals[oid["displayName"]] = val
 
             rootCrop =  is_root_crop(vals["Crop"])
             if residue_humus_balance and vals.get("Year", 0) >= 2005:
@@ -149,16 +150,15 @@ def create_crop_output(oids, row, col, rotation, prod_level, values, use_seconda
             else:
                 return_residues, export_residues = retuned_exported_residues(float(vals["AbBiom"]), float(vals["Yield"]), float(vals["SecondaryYield"]), use_secondary_yields, rootCrop)
 
-
-            if vals.get("Year", 0) >= start_recording_out and not vals.get("skip", False):
+            if vals.get("Year", 0) >= start_recording_out and not skip(vals.get("Harvest"), last_year):
                 out.append([
                     row_col,
                     rotation,
                     vals.get("Crop", "NA").replace("/", "_").replace(" ", "-"),
                     prod_level,
                     vals.get("Year", "NA"),
-                    vals.get("Date", "NA"),
-                    vals.get("SOC", "NA"),
+                    cyclelength(vals.get("Sowing"), vals.get("Harvest")),
+                    deltaSOC_perc(vals.get("SOCini", 0), vals.get("SOCend", 0)),
                     vals.get("Rh", "NA"),
                     vals.get("NEP", "NA"),
                     vals.get("Yield", "NA"),
@@ -214,7 +214,7 @@ def write_data(region_id, year_data, crop_data, pheno_data, suffix):
 
     if not os.path.isfile(path_to_year_file):
         with open(path_to_year_file, "w") as _:
-            _.write("IDcell,rotation,prodlevel,year,deltaOC,CO2emission,NEP,ET,EV,waterperc,Nleach,Nup,Nminfert,Norgfert,N2Oem,Precip,yearTavg,KA5class,soiltype\n")
+            _.write("IDcell,rotation,prodlevel,year,deltaOC,SOCavg,CO2emission,NEP,ET,EV,waterperc,Nleach,Nup,Nminfert,Norgfert,N2Oem,Precip,yearTavg,KA5class,soiltype\n")
 
     with open(path_to_year_file, 'ab') as _:
         writer = csv.writer(_, delimiter=",")
