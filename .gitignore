@@ -26,3 +26,5 @@ local_run/
 out/
 .vscode/
 .Rhistory
+calibration/envs
+*.pyc

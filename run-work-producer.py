@@ -336,7 +336,6 @@ def producer(setup=None):
                 if row[i] != "":
                         mineralN_split[cp][i-4] = float(row[i])
 
-    sim["UseSecondaryYields"] = True
     def modify_2ry_yield_params(cp, export_r):
         for k in EXPORT_PRESETS[export_r].keys():
             if cp[0] in k:
@@ -350,6 +349,7 @@ def producer(setup=None):
         else:
             modify_2ry_yield_params(cp, EXPORT_RATE)
 
+    sim["UseSecondaryYields"] = True
     sim["include-file-base-path"] = paths["INCLUDE_FILE_BASE_PATH"]
 
     def read_general_metadata(path_to_file):
@@ -642,6 +642,8 @@ def producer(setup=None):
     syll_center = syll + scellsize // 2
     syul_center = syll_center + (srows - 1)*scellsize
 
+    unique_combos = {}
+
     for (row, col), gmd in general_metadata.iteritems():
 
         #test
@@ -707,11 +709,25 @@ def producer(setup=None):
             #continue
 
             for rot_id, rotation in rotations[str(bkr_id)].iteritems():
+                
+                #retrieve info for calibration
+                dump_env = False
+                if (soil_id, meteo_id, rot_id) not in unique_combos.keys():                    
+                    profs = []
+                    dump_env = True
+                    for prof in range(len(site["SiteParameters"]["SoilProfileParameters"])):
+                        prof_info = {
+                            "SOC": site["SiteParameters"]["SoilProfileParameters"][prof]["SoilOrganicCarbon"][0],
+                            "thickness": site["SiteParameters"]["SoilProfileParameters"][prof]["Thickness"][0],
+                            "N_layers": int(round(site["SiteParameters"]["SoilProfileParameters"][prof]["Thickness"][0] * 10))
+                        }
+                        profs.append(prof_info)
+                    unique_combos[(soil_id, meteo_id, rot_id)] = profs
 
                 ########for testing
                 #if rot_id not in ["9120", "7120", "7130", "8120", "6110", "6120", "5120", "1110", "1130", "3110", "3130", "2110", "2120", "2130", "4110", "4120"]:
                 #    continue
-
+                
                 #spinup period (1976-2004):
                 rotation_spinup = rotations_spinup[str(bkr_id)][rot_id]
                 ext_rot_spinup = extend_rotation(rotation_spinup, 4)
@@ -777,6 +793,15 @@ def producer(setup=None):
                     env["params"]["simulationParameters"]["UseNMinMineralFertilisingMethod"] = sim_["UseNMinMineralFertilisingMethod"]
                     env["params"]["simulationParameters"]["FrostKillOn"] = sim_["FrostKillOn"]
 
+                    if dump_env:
+                        #save the env for calibration
+                        basepath = os.path.dirname(os.path.abspath(__file__))
+                        m_id = str(meteo_id).replace("(", "").replace(")", "").replace(", ", "_")
+                        file_id = str(soil_id) + "_" + m_id + "_" + str(rot_id)
+                        filename = basepath + "/calibration/envs/" + file_id + ".json"
+                        with open(filename, "w") as _:
+                            _.write(json.dumps(env, indent=4))
+
                     for main_cp_iteration in range(0, len(rots_info[int(rot_id)])):
                         #do not allow crop rotation of sim_period2 to start with a CC
                         if "is-cover-crop" in env["cropRotations"][1]["cropRotation"][0].keys() and env["cropRotations"][1]["cropRotation"][0]["is-cover-crop"] == True:
@@ -799,7 +824,7 @@ def producer(setup=None):
                         print "sent env ", sent_id, " customId: ", env["customId"]
                         sent_id += 1
                         rotate(env["cropRotations"][1]["cropRotation"]) #only simperiod2 is rotated
-
+                
     if export_lat_lon_file:
         export_lat_lon_file.close()
 
@@ -808,25 +833,48 @@ def producer(setup=None):
     print "sending ", sent_id, " envs took ", (stop_send - start_send), " seconds"
     print "simulated cells: ", simulated_cells, "; not found kreise for org N: ", no_kreis
 
-    #with open("bkr2lk.csv", "wb") as _:
-    #    writer = csv.writer(_, delimiter=",")
-    #    header = ["bkr", "lk"]
-    #    writer.writerow(header)
-    #    for bkr in bkr2lk.keys():
-    #        for lk in bkr2lk[bkr]:
-    #            row = [bkr, lk]
-    #            writer.writerow(row)
+'''
+    with open("unique_combinations_plus.csv", "wb") as _:
+        writer = csv.writer(_)
+        header = ["soil_id", "meteo_id", "rot_id", 
+                "profile_0_SOC", "thickness_0", "Nlayers_0",
+                "profile_1_SOC", "thickness_1",	"Nlayers_1",
+                "profile_2_SOC", "thickness_2",	"Nlayers_2",
+                "profile_3_SOC", "thickness_3",	"Nlayers_3",
+                "profile_4_SOC", "thickness_4",	"Nlayers_4"
+                ]
+        writer.writerow(header)
+        for combo in unique_combos.keys():
+            row=[]
+            row.append(combo[0])
+            row.append(combo[1])
+            row.append(combo[2])
+            for prof in range(len(unique_combos[combo])):
+                row.append(unique_combos[combo][prof]["SOC"])
+                row.append(unique_combos[combo][prof]["thickness"])
+                row.append(unique_combos[combo][prof]["N_layers"])
+            writer.writerow(row)
 
-    #with open("soilty2iniSOC.csv", "wb") as _:
-    #    writer = csv.writer(_, delimiter=",")
-    #    header = ["soil_type", "iniSOC"]
-    #    writer.writerow(header)
-    #    for soilty in soilty2iniSOC.keys():
-    #        for iniSOC in soilty2iniSOC[soilty]:
-    #            row = [soilty, iniSOC]
-    #            writer.writerow(row)
-    #print "done"
-#topsoil_carbon = {}
+    with open("bkr2lk.csv", "wb") as _:
+        writer = csv.writer(_, delimiter=",")
+        header = ["bkr", "lk"]
+        writer.writerow(header)
+        for bkr in bkr2lk.keys():
+            for lk in bkr2lk[bkr]:
+                row = [bkr, lk]
+                writer.writerow(row)
+
+    with open("soilty2iniSOC.csv", "wb") as _:
+        writer = csv.writer(_, delimiter=",")
+        header = ["soil_type", "iniSOC"]
+        writer.writerow(header)
+        for soilty in soilty2iniSOC.keys():
+            for iniSOC in soilty2iniSOC[soilty]:
+                row = [soilty, iniSOC]
+                writer.writerow(row)
+    print "done"
+topsoil_carbon = {}
+'''
 
 with open("setup_sims_test.csv") as setup_file:
     setups = []
