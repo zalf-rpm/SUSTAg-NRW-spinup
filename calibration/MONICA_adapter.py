@@ -23,6 +23,10 @@ class monica_adapter(object):
         s_push = "tcp://" + self.config["server"]  + ":" + self.config["push-port"]
         self.socket_push.connect(s_push)
 
+        self.socket_pull = self.context.socket(zmq.PULL)
+        s_pull = "tcp://" + self.config["server"]  + ":" + self.config["pull-port"]
+        self.socket_pull.connect(s_pull)
+
     def run(self, args):
         return self._run(*args)
 
@@ -34,37 +38,24 @@ class monica_adapter(object):
         soil_profile_params = self.env["params"]["siteParameters"]["SoilProfileParameters"]
         for i in range(len(vector)):
             soil_profile_params[i]["SoilOrganicCarbon"][0] = round(vector[i], 3)
-
-        #launch parallel thread for the collector
-        collector = Thread(target=self.collect_results)
-        collector.daemon = True
-        collector.start()
-
-        #send jobs to the MONICA server
+        
+        #send job to the MONICA server
         self.socket_push.send_json(self.env)
 
-        #wait until the collector finishes
-        collector.join()
-
-        #return the evaluation list for spotpy
-        return self.evallist
-
-        
-    def collect_results(self):
-        socket_pull = self.context.socket(zmq.PULL)
-        s_pull = "tcp://" + self.config["server"]  + ":" + self.config["pull-port"]
-        socket_pull.connect(s_pull)
-        
+        #collect results
         leave = False
         while not leave:
             try:
-                rec_msg = socket_pull.recv_json()
+                rec_msg = self.socket_pull.recv_json()
             except:
                 continue
-            
+
             for res in rec_msg["data"]:
                 try:
                     self.evallist.append(res["results"][0][0])
                 except:
                     print("error in results for id " + rec_msg["customId"])
             leave = True
+
+        #return the evaluation list for spotpy
+        return self.evallist

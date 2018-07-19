@@ -22,7 +22,8 @@ config = {
     "push-port": "6666",
     "pull-port": "7777",
     "runs-file": "unique_combinations_test.csv",
-    "rep": 10
+    "rep": 15,
+    "cal-method": "MLE"
 }
 if len(sys.argv) > 1:
     for arg in sys.argv[1:]:
@@ -110,8 +111,13 @@ for env_file, profiles in unique_combos:
 spot_setup = spotpy_setup_MONICA.spot_setup(params, obslist, config, env)
 results = []
 
-sampler = spotpy.algorithms.sceua(spot_setup, dbname='SCEUA', dbformat='ram')
-sampler.sample(config["rep"], ngs=len(params)+1, kstop=10, pcento=10, peps=10)
+if config["cal-method"] == "SCE-UA":
+    sampler = spotpy.algorithms.sceua(spot_setup, dbname='SCEUA', dbformat='ram')
+    sampler.sample(repetitions=config["rep"], ngs=len(params)+1, kstop=10, pcento=10, peps=10)
+elif config["cal-method"] == "MLE":
+    sampler = spotpy.algorithms.mle(spot_setup, dbname='MLE_CMF', dbformat='ram')
+    sampler.sample(repetitions=config["rep"])
+
 results.append(sampler.getdata())
 
 best = sampler.status.params
