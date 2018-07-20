@@ -26,6 +26,7 @@ local_run/
 out/
 .vscode/
 .Rhistory
+dumped_envs/
 calibration/envs
 calibration/unique_combinations_plus.csv
 calibration/unique_combinations_test.csv

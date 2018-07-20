@@ -32,6 +32,7 @@ if len(sys.argv) > 1:
             config[k] = v
 
 basepath = os.path.dirname(os.path.abspath(__file__))
+envpath = os.path.dirname(basepath)
 
 outfile = basepath + "/optparams" + "_" + config["runs-file"]
 with open(outfile, 'wb') as _:
@@ -61,8 +62,9 @@ with open(basepath + "/" + config["runs-file"]) as _:
         unique_combos.append((env_file, profiles))
 
 for env_file, profiles in unique_combos:
+    print("calibrating " + str(env_file))
     #read proper env
-    with open(basepath + "/envs/" + env_file) as _:
+    with open(envpath + "/dumped_envs/" + env_file) as _:
         env = json.load(_)
         #set correct path to climate
         path_0 = env["pathToClimateCSV"][0].split("data/")[1]
@@ -76,10 +78,25 @@ for env_file, profiles in unique_combos:
         #modify end date (no need to simulate to 2050)
         env["csvViaHeaderOptions"]["end-date"] = "2004-12-31"
         env["customId"] = env_file.replace(".json", "")
+    
+    #remove layers below max mineralization depth
+    active_layers = int(env["params"]["userSoilOrganicParameters"]["DEFAULT"]["MaxMineralisationDepth"] * 10)
+    calib_layers = []
+    n_lay = 0
+    for prof in profiles:
+        if n_lay < active_layers:
+            calib_layers.append(True)
+        else:
+            calib_layers.append(False)
+        n_lay += prof["Nlay"]
+
+
 
     #define params
     params=[]
     for i in range(len(profiles)):
+        if not calib_layers[i]:
+            continue
         p={}
         p["name"] = "Corg_" + str(i)
         p["low"] = 0
@@ -93,6 +110,8 @@ for env_file, profiles in unique_combos:
     #create observation list
     obslist = []
     for i in range(len(profiles)):
+        if not calib_layers[i]:
+            continue
         obslist.append(profiles[i]["Corg"]/100) #from % to kg kg-1
 
     #customize events section for output
@@ -103,6 +122,8 @@ for env_file, profiles in unique_combos:
         }
     upper_lay = 1
     for i in range(len(profiles)):
+        if not calib_layers[i]:
+            continue
         out_req = []
         var = "SOC"
         lower_lay = min(upper_lay + profiles[i]["Nlay"] - 1, 20)

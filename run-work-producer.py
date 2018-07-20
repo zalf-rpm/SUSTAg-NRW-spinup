@@ -139,16 +139,16 @@ def producer(setup=None):
         run_id = "custom"
         PRODUCTION_LEVEL = 'WL.NL.rain' #options: "Pot", "WL.NL.rain"
         TF = "continuous"
-        FERT_STRATEGY = "NDEM" #options: "NDEM", "NMIN", "BASE"
+        FERT_STRATEGY = "BASE" #options: "NDEM", "NMIN", "BASE"
         COVER_CROP_FREQ = {
             #always use int for insert-cc-every and out-of
             #keep out-of as small as possible (to ensure uniform temporal distribution)
             "insert-cc-every": 1, #CM
-            "out-of": 1, #CM
-            "suffix": "100" #TODO set it (for output file name)
+            "out-of": 4, #CM
+            "suffix": "25" #TODO set it (for output file name)
         }
-        EXPORT_RATE = "theoretical"
-        RESIDUES_HUMUS_BALANCE = True #mgt complying with humus balance approach of NRW
+        EXPORT_RATE = "base"
+        RESIDUES_HUMUS_BALANCE = False #mgt complying with humus balance approach of NRW
         HUMBAL_CORRECTION = {
             "heavy": 200,
             "medium": 300,
@@ -822,12 +822,12 @@ def producer(setup=None):
                         basepath = os.path.dirname(os.path.abspath(__file__))
                         m_id = str(meteo_id).replace("(", "").replace(")", "").replace(", ", "_")
                         file_id = str(s_OID) + "_" + m_id + "_" + str(rot_id)
-                        filename = basepath + "/calibration/envs/" + file_id + ".json"
+                        filename = basepath + "/dumped_envs/" + file_id + ".json"
                         with open(filename, "w") as _:
                             _.write(json.dumps(env, indent=4))
                             print("dumped env: " + file_id)
+                    
                     '''
-
                     for main_cp_iteration in range(0, len(rots_info[int(rot_id)])):
                         #do not allow crop rotation of sim_period2 to start with a CC
                         if "is-cover-crop" in env["cropRotations"][1]["cropRotation"][0].keys() and env["cropRotations"][1]["cropRotation"][0]["is-cover-crop"] == True:
@@ -850,6 +850,7 @@ def producer(setup=None):
                         print "sent env ", sent_id, " customId: ", env["customId"]
                         sent_id += 1
                         rotate(env["cropRotations"][1]["cropRotation"]) #only simperiod2 is rotated
+                    
 
     if export_lat_lon_file:
         export_lat_lon_file.close()
