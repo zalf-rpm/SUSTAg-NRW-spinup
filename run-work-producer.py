@@ -396,6 +396,23 @@ def producer(setup=None):
     orgN_kreise = read_orgN_kreise("NRW_orgN_balance_T27.csv", 8)
     #orgN_kreise = read_orgN_kreise("NRW_orgN_balance_T28.csv", 6)
 
+    def soil_OID(con, profile_id):
+        "return soil OID from the database connection for given profile id"
+        query = """
+            select 
+                id, 
+                soil_OID
+            from soil_profile 
+            where id = ? 
+            order by id
+        """
+
+        con.row_factory = sqlite3.Row
+        for row in con.cursor().execute(query, (profile_id,)):
+            OID = row["soil_OID"]
+            break
+        return OID
+
     def update_soil(row, col):
         "in place update the env"
 
@@ -642,7 +659,7 @@ def producer(setup=None):
     syll_center = syll + scellsize // 2
     syul_center = syll_center + (srows - 1)*scellsize
 
-    unique_combos = {}
+    #unique_combos = {} #for calibration/SA envs
 
     for (row, col), gmd in general_metadata.iteritems():
 
@@ -689,6 +706,7 @@ def producer(setup=None):
             simulated_cells += 1
 
             KA5_txt = update_soil(row, col)
+            #s_OID = soil_OID(soil_db_con, soil_ids[(row, col)])        
 
             light_soils = ["Ss", "Su2", "Su3", "Su4", "St2", "Sl3", "Sl2"]
             heavy_soils = ["Tu3", "Tu4", "Lt3", "Ts2", "Tl", "Tu2", "Tt"]
@@ -710,9 +728,10 @@ def producer(setup=None):
 
             for rot_id, rotation in rotations[str(bkr_id)].iteritems():
                 
-                #retrieve info for calibration
+                '''
+                #retrieve info for calibration/SA
                 dump_env = False
-                if (soil_id, meteo_id, rot_id) not in unique_combos.keys():                    
+                if (s_OID, meteo_id, rot_id) not in unique_combos.keys():                    
                     profs = []
                     dump_env = True
                     for prof in range(len(site["SiteParameters"]["SoilProfileParameters"])):
@@ -722,7 +741,11 @@ def producer(setup=None):
                             "N_layers": int(round(site["SiteParameters"]["SoilProfileParameters"][prof]["Thickness"][0] * 10))
                         }
                         profs.append(prof_info)
-                    unique_combos[(soil_id, meteo_id, rot_id)] = profs
+                    unique_combos[(s_OID, meteo_id, rot_id)] = profs
+                    print "added combo OID: {0}, meteo: {1}, rot: {2}".format(str(s_OID), str(meteo_id), str(rot_id))
+                else:
+                    continue
+                '''
 
                 ########for testing
                 #if rot_id not in ["9120", "7120", "7130", "8120", "6110", "6120", "5120", "1110", "1130", "3110", "3130", "2110", "2120", "2130", "4110", "4120"]:
@@ -793,14 +816,17 @@ def producer(setup=None):
                     env["params"]["simulationParameters"]["UseNMinMineralFertilisingMethod"] = sim_["UseNMinMineralFertilisingMethod"]
                     env["params"]["simulationParameters"]["FrostKillOn"] = sim_["FrostKillOn"]
 
+                    '''
                     if dump_env:
-                        #save the env for calibration
+                        #save the env for calibration/SA
                         basepath = os.path.dirname(os.path.abspath(__file__))
                         m_id = str(meteo_id).replace("(", "").replace(")", "").replace(", ", "_")
-                        file_id = str(soil_id) + "_" + m_id + "_" + str(rot_id)
+                        file_id = str(s_OID) + "_" + m_id + "_" + str(rot_id)
                         filename = basepath + "/calibration/envs/" + file_id + ".json"
                         with open(filename, "w") as _:
                             _.write(json.dumps(env, indent=4))
+                            print("dumped env: " + file_id)
+                    '''
 
                     for main_cp_iteration in range(0, len(rots_info[int(rot_id)])):
                         #do not allow crop rotation of sim_period2 to start with a CC
@@ -824,7 +850,7 @@ def producer(setup=None):
                         print "sent env ", sent_id, " customId: ", env["customId"]
                         sent_id += 1
                         rotate(env["cropRotations"][1]["cropRotation"]) #only simperiod2 is rotated
-                
+
     if export_lat_lon_file:
         export_lat_lon_file.close()
 
@@ -833,10 +859,11 @@ def producer(setup=None):
     print "sending ", sent_id, " envs took ", (stop_send - start_send), " seconds"
     print "simulated cells: ", simulated_cells, "; not found kreise for org N: ", no_kreis
 
+
 '''
-    with open("unique_combinations_plus.csv", "wb") as _:
+    with open("unique_combinations_OID.csv", "wb") as _:
         writer = csv.writer(_)
-        header = ["soil_id", "meteo_id", "rot_id", 
+        header = ["soil_OID", "meteo_id", "rot_id", 
                 "profile_0_SOC", "thickness_0", "Nlayers_0",
                 "profile_1_SOC", "thickness_1",	"Nlayers_1",
                 "profile_2_SOC", "thickness_2",	"Nlayers_2",
