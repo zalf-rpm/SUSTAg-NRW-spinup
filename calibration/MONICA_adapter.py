@@ -13,11 +13,11 @@ from collections import defaultdict
 
 class monica_adapter(object):
     def __init__(self, obslist, config, env):
-
         self.observations = obslist #for spotpy
         self.env = env
         self.config = config
 
+        #open sockets
         self.context = zmq.Context()
         self.socket_push = self.context.socket(zmq.PUSH)
         s_push = "tcp://" + self.config["server"]  + ":" + self.config["push-port"]
@@ -59,3 +59,8 @@ class monica_adapter(object):
 
         #return the evaluation list for spotpy
         return self.evallist
+    
+    def close_sockets(self):
+        self.socket_push.close()
+        self.socket_pull.close()
+        self.context.term()

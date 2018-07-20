@@ -22,7 +22,7 @@ config = {
     "push-port": "6666",
     "pull-port": "7777",
     "runs-file": "unique_combinations_test.csv",
-    "rep": 15,
+    "rep": 20,
     "cal-method": "MLE"
 }
 if len(sys.argv) > 1:
@@ -32,6 +32,12 @@ if len(sys.argv) > 1:
             config[k] = v
 
 basepath = os.path.dirname(os.path.abspath(__file__))
+
+outfile = basepath + "/optparams" + "_" + config["runs-file"]
+with open(outfile, 'wb') as _:
+    writer = csv.writer(_)
+    header = ["sim_id", "RMSE (kg kg-1)", "Corg_0", "Corg_1", "Corg_2", "Corg_3", "Corg_4"]
+    writer.writerow(header)
 
 #read unique combinations
 unique_combos = []
@@ -95,51 +101,44 @@ for env_file, profiles in unique_combos:
             "from": "2000-01-01",
             "to": "2004-12-31"
         }
-    last_lay = 1
+    upper_lay = 1
     for i in range(len(profiles)):
         out_req = []
         var = "SOC"
-        lay_aggr = [last_lay, 
-                    min(last_lay + profiles[i]["Nlay"], 20),
+        lower_lay = min(upper_lay + profiles[i]["Nlay"] - 1, 20)
+        lay_aggr = [upper_lay,
+                    lower_lay,
                     "AVG"]
         out_req.append(var)
         out_req.append(lay_aggr)
         env["events"].append(time_aggr)
         env["events"].append([out_req])
+        upper_lay = lower_lay + 1
 
 
-spot_setup = spotpy_setup_MONICA.spot_setup(params, obslist, config, env)
-results = []
+    spot_setup = spotpy_setup_MONICA.spot_setup(params, obslist, config, env)
+    results = []
 
-if config["cal-method"] == "SCE-UA":
-    sampler = spotpy.algorithms.sceua(spot_setup, dbname='SCEUA', dbformat='ram')
-    sampler.sample(repetitions=config["rep"], ngs=len(params)+1, kstop=10, pcento=10, peps=10)
-elif config["cal-method"] == "MLE":
-    sampler = spotpy.algorithms.mle(spot_setup, dbname='MLE_CMF', dbformat='ram')
-    sampler.sample(repetitions=config["rep"])
+    if config["cal-method"] == "SCE-UA":
+        sampler = spotpy.algorithms.sceua(spot_setup, dbname='SCEUA', dbformat='ram')
+        sampler.sample(repetitions=config["rep"], ngs=len(params)+1, kstop=10, pcento=10, peps=10)
+    elif config["cal-method"] == "MLE":
+        sampler = spotpy.algorithms.mle(spot_setup, dbname='MLE_CMF', dbformat='ram')
+        sampler.sample(repetitions=config["rep"])
+    
+    spot_setup.monica_model.close_sockets()
 
-results.append(sampler.getdata())
+    best_params = sampler.status.params
+    RMSE = -sampler.status.objectivefunction
 
-best = sampler.status.params
-
-'''
-with open('optimizedparams.csv', 'wb') as outcsvfile:
-    writer = csv.writer(outcsvfile)        
-    for i in range(len(best)):
-        outrow=[]
-        arr_pos = ""
-        if params[i]["array"].upper() != "FALSE":
-            arr_pos = params[i]["array"]        
-        outrow.append(params[i]["name"]+arr_pos)
-        outrow.append(best[i])
-        writer.writerow(outrow)
-    if len(params) > len(best):
-        reminder = []
-        reminder.append("Don't forget to calculate and set derived params!")
-        writer.writerow(reminder)
-    text='optimized parameters saved!'
-    print(text)
-'''
+    with open(outfile, 'ab') as _:
+        writer = csv.writer(_)
+        row = []
+        row.append(env_file.replace(".json", ""))
+        row.append(round(RMSE, 4))
+        for i in range(len(best_params)):
+            row.append(round(best_params[i], 3))
+        writer.writerow(row)
 
 print("finished!")
 
