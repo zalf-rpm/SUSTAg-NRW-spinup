@@ -32,4 +32,6 @@ calibration/unique_combinations_plus.csv
 calibration/unique_combinations_test.csv
 calibration/optparams_unique_combinations_test.csv
 calibration/test_calibration_results
+sensitivity_analysis/test_dump_out
+sensitivity_analysis/out-runs
 *.pyc

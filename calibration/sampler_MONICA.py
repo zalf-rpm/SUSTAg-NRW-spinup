@@ -68,7 +68,7 @@ for env_file, profiles in unique_combos:
         env = json.load(_)
         #set correct path to climate
         path_0 = env["pathToClimateCSV"][0].split("data/")[1]
-        path_1 = env["pathToClimateCSV"][0].split("data/")[1]
+        path_1 = env["pathToClimateCSV"][1].split("data/")[1]
         if config["server"] == "localhost":
             env["pathToClimateCSV"][0] = paths["local-path"] + path_0
             env["pathToClimateCSV"][1] = paths["local-path"] + path_1
@@ -79,7 +79,7 @@ for env_file, profiles in unique_combos:
         env["csvViaHeaderOptions"]["end-date"] = "2004-12-31"
         env["customId"] = env_file.replace(".json", "")
     
-    #remove layers below max mineralization depth
+    #exclude layers below max mineralization depth
     active_layers = int(env["params"]["userSoilOrganicParameters"]["DEFAULT"]["MaxMineralisationDepth"] * 10)
     calib_layers = []
     n_lay = 0
