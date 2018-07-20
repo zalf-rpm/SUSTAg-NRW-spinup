@@ -180,13 +180,13 @@ def producer(setup=None):
     suffix += "pl-" + PRODUCTION_LEVEL.replace(".", "") + "_"
 
     if FERT_STRATEGY == "NMIN":
-        rotations_file = "rotations_dynamic_harv.json"
+        rotations_file = "json_templates/rotations_dynamic_harv.json"
     elif FERT_STRATEGY == "NDEM":
-        rotations_file = "rotations_dynamic_harv_Ndem.json"
+        rotations_file = "json_templates/rotations_dynamic_harv_Ndem.json"
     elif FERT_STRATEGY == "BASE":
-        rotations_file = "rotations_dynamic_harv_Nbaseline.json"
+        rotations_file = "json_templates/rotations_dynamic_harv_Nbaseline.json"
 
-    rotations_spinup_file = "rotations_dynamic_harv_Nbaseline_SU.json"
+    rotations_spinup_file = "json_templates/rotations_dynamic_harv_Nbaseline_SU.json"
 
     if LOCAL_RUN:
         PATH_TO_CLIMATE_DATA_DIR = timeframes[TF]["local-path-to-climate"]
@@ -203,18 +203,18 @@ def producer(setup=None):
 
     soil_db_con = sqlite3.connect("soil.sqlite")
 
-    with open("sim.json") as _:
+    with open("json_templates/sim.json") as _:
         sim = json.load(_)
         sim["start-date"] = timeframes[TF]["start-date"]
         sim["end-date"] = timeframes[TF]["end-date"]
 
-    with open("site.json") as _:
+    with open("json_templates/site.json") as _:
         site = json.load(_)
 
-    with open("crop.json") as _:
+    with open("json_templates/crop.json") as _:
         crop = json.load(_)
 
-    with open("cover-crop.json") as _:
+    with open("json_templates/cover-crop.json") as _:
         cover_crop = json.load(_)["CM"]
         if RESIDUES_HUMUS_BALANCE:
             #inject additional harvest params
@@ -226,10 +226,10 @@ def producer(setup=None):
                     cover_crop["worksteps"][ws]["crop-usage"] = CROP_USAGE_HUMBAL["CC"]
                     cover_crop["worksteps"][ws]["exported"] = True #Needed to fire the humus balance approach; if true and crop-usage="green-manure" --> the crop is anyway returned to the soil
 
-    with open("cover-crop_SU.json") as _:
+    with open("json_templates/cover-crop_SU.json") as _:
         cover_crop_spinup = json.load(_)["CM_SU"]
 
-    with open("sims.json") as _:
+    with open("json_templates/sims.json") as _:
         sims = json.load(_)
         if FERT_STRATEGY != "NMIN":
             #turn off Nmin automatic fertilization
@@ -465,13 +465,13 @@ def producer(setup=None):
             return data
 
     #offset is used to match info in general metadata and soil database
-    soil_ids = read_ascii_grid("soil-profile-id_nrw_gk3.asc", row_offset=282)
-    bkr_ids = read_ascii_grid("bkr_nrw_gk3.asc", row_offset=282)
-    lu_ids = read_ascii_grid("lu_resampled.asc", row_offset=282)
-    kreise_ids = read_ascii_grid("kreise_matrix.asc", row_offset=282)
+    soil_ids = read_ascii_grid("asc_grids/soil-profile-id_nrw_gk3.asc", row_offset=282)
+    bkr_ids = read_ascii_grid("asc_grids/bkr_nrw_gk3.asc", row_offset=282)
+    lu_ids = read_ascii_grid("asc_grids/lu_resampled.asc", row_offset=282)
+    kreise_ids = read_ascii_grid("asc_grids/kreise_matrix.asc", row_offset=282)
     meteo_ids = load_mapping(row_offset=282)
 
-    soil_metadata, _ = read_header("soil-profile-id_nrw_gk3.asc")
+    soil_metadata, _ = read_header("asc_grids/soil-profile-id_nrw_gk3.asc")
 
     wgs84 = Proj(init="epsg:4326")
     gk3 = Proj(init="epsg:3396")
