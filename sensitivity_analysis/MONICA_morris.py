@@ -20,11 +20,11 @@ paths = {
 }
 
 config = {
-    "server": "cluster3", #"localhost",
+    "server": "localhost", #"cluster1", #"localhost",
     "push-port": "6666",
     "pull-port": "7777",
-    "runs-file": "unique_combinations_test.csv",
-    "write-all-out": True
+    "runs-file": "unique_combinations_OID.csv",
+    "write-all-out": False
 }
 
 if len(sys.argv) > 1:
@@ -74,7 +74,7 @@ def set_param(params_list, p_name, p_value):
             if isinstance(v, list):
                 v[0] = p_value
             else:
-                v = p_value
+                print("!!!case not covered!!!")
 
 def seek_params(param_list, param_names, p_types, env):
     soilorg_params = env['params']['userSoilOrganicParameters']["DEFAULT"]
@@ -94,8 +94,18 @@ def seek_params(param_list, param_names, p_types, env):
                     for ws in cm["worksteps"]:
                         if p_type == "org-fert" and ws["type"] == "OrganicFertilization":
                             set_param(ws["parameters"], p_name, p_value)
+                            #derived params:
+                            if p_name == "PartAOM_to_AOM_Fast":
+                                set_param(ws["parameters"], "PartAOM_to_AOM_Slow", (1 - p_value))
+                            ################
                         if p_type == "residue" and ws["type"] == "Sowing":
                             set_param(ws["crop"]["residueParams"], p_name, p_value)
+                            #derived params:
+                            if p_name == "PartAOM_Slow_to_SMB_Fast":
+                                set_param(ws["crop"]["residueParams"], "PartAOM_Slow_to_SMB_Slow", (1 - p_value))
+                            elif p_name == "PartAOM_to_AOM_Fast":
+                                set_param(ws["crop"]["residueParams"], "PartAOM_to_AOM_Slow", (1 - p_value))
+                            ###############
 
 #read params to test
 p_names = []
@@ -130,7 +140,9 @@ problem = {
 
 # SAMPLE
 # morris.sample(problem, N, num_levels, grid_jump, # optimal_trajectories=None, local_optimization=False)
-param_values = morris_pler.sample(problem, 10, 5, 1, optimal_trajectories=None, local_optimization=False)
+param_values = morris_pler.sample(problem, 30, 7, 1, optimal_trajectories=None, local_optimization=False)
+
+print("simulation needed for SA: " + str(len(param_values)))
 
 #read unique combinations
 unique_combos = []
@@ -167,7 +179,11 @@ with open(outfile, 'wb') as _:
 with open(basepath + "/events.json") as _:
     events_json = json.load(_)
 
+counter = 0
+out_of = len(unique_combos)
+
 for env_file in unique_combos:
+    counter += 1
     print("starting SA with env " + str(env_file))
     #read proper env
     with open(envpath + "/dumped_envs/" + env_file) as _:
@@ -206,7 +222,7 @@ for env_file in unique_combos:
         #    _.write(json.dumps(env, indent=4))
         #    print("dumped env: " + env_file)
 
-        print "sent " + str(i + 1) + " out of " + str(len(param_values))
+        print "SA run " + str(counter) + " out of " + str(out_of) + ": sent " + str(i + 1) + " out of " + str(len(param_values))
 
 
     #wait until the collector finishes
