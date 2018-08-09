@@ -15,16 +15,15 @@ class monica_adapter(object):
     def __init__(self, obslist, config, env):
         self.observations = obslist #for spotpy
         self.env = env
-        self.config = config
 
         #open sockets
         self.context = zmq.Context()
         self.socket_push = self.context.socket(zmq.PUSH)
-        s_push = "tcp://" + self.config["server"]  + ":" + self.config["push-port"]
+        s_push = "tcp://" + config["server"]  + ":" + config["push-port"]
         self.socket_push.connect(s_push)
 
         self.socket_pull = self.context.socket(zmq.PULL)
-        s_pull = "tcp://" + self.config["server"]  + ":" + self.config["pull-port"]
+        s_pull = "tcp://" + config["server"]  + ":" + config["pull-port"]
         self.socket_pull.connect(s_pull)
 
     def run(self, args):

@@ -1,0 +1,8 @@
+exp_ID,sim file,crop file,site file,climate file
+1,sim_Askov.json,crop_Askov.json,site_Askov.json,Askov_doy_total.csv
+2,sim_Askov2.json,crop_Askov2.json,site_Askov2.json,Askov2_doy_total.csv
+3,sim_Grignon.json,crop_Grignon.json,site_Grignon.json,Grignon_doy_total_test.csv
+4,sim_Kursk.json,crop_Kursk.json,site_Kursk.json,Kursk_doy_total.csv
+5,sim_Rothamsted.json,crop_Rothamsted.json,site_Rothamsted.json,Rothamsted_doy_total1_sr.csv
+6,sim_Ultuna.json,crop_Ultuna.json,site_Ultuna.json,Ultuna_doy_total_ Kopie1.csv
+7,sim_Versailles.json,crop_Versailles.json,site_Versailles.json,Versailles_doy_total.csv

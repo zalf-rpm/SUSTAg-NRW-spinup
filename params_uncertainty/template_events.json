@@ -1,0 +1,9 @@
+{
+    "events":[
+        "yearly", [
+                ["Year", "FIRST"],
+                ["SOC", [1, 3, "AVG"]]
+            ]
+    ]
+    
+}

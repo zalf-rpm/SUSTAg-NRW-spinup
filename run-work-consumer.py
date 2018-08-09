@@ -205,12 +205,13 @@ def update_pheno_output(oids, row, col, rotation, prod_level, values, pheno_data
                     vals[oid_name] = val
             pheno_data[region_id][vals.get("Crop")][vals.get("Year")].update(vals)
 
-def write_data(region_id, year_data, crop_data, pheno_data, suffix):
+def write_data(region_id, year_data, crop_data, pheno_data, soc_data, suffix):
     "write data"
 
     path_to_crop_file = "out/" + str(region_id) + suffix + "crop.csv"
     path_to_year_file = "out/" + str(region_id) + suffix + "year.csv"
     path_to_pheno_file = "out/" + str(region_id) + suffix + "pheno.csv"
+    path_to_SOC_file = "out/" + str(region_id) + suffix + "soc.csv"
 
     if not os.path.isfile(path_to_year_file):
         with open(path_to_year_file, "w") as _:
@@ -231,6 +232,16 @@ def write_data(region_id, year_data, crop_data, pheno_data, suffix):
         for row_ in crop_data[region_id]:
             writer.writerow(row_)
         crop_data[region_id] = []
+    
+    if not os.path.isfile(path_to_SOC_file):
+        with open(path_to_SOC_file, "w") as _:
+            _.write("row_col,rotation,p_id,KA5_txt,soil_type,orgN_kreis,SOC8084,SOC8589,SOC9094,SOC9599,SOC0004,SOC0509,SOC1014,SOC1519,SOC2024,SOC2529,SOC3034,SOC3539,SOC4044,SOC4549\n")
+
+    with open(path_to_SOC_file, 'ab') as _:
+        writer = csv.writer(_, delimiter=",")
+        for row_ in soc_data[region_id]:
+            writer.writerow(row_)
+        soc_data[region_id] = []
     
     #if not os.path.isfile(path_to_pheno_file):
     #    with open(path_to_pheno_file, "w") as _:
@@ -257,6 +268,7 @@ def collector():
 
     year_data = defaultdict(list)
     crop_data = defaultdict(list)
+    soc_data = defaultdict(list)
     pheno_data = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
 
     i = 0
@@ -279,7 +291,7 @@ def collector():
         except:
             for region_id in year_data.keys():
                 if len(year_data[region_id]) > 0:
-                    write_data(region_id, year_data, crop_data, pheno_data, suffix)
+                    write_data(region_id, year_data, crop_data, pheno_data, soc_data, suffix)
             continue
 
         if result["type"] == "finish":
@@ -308,7 +320,18 @@ def collector():
             suffix = ci_parts[9]
             KA5_txt = ci_parts[10]
             soil_type = ci_parts[11]
+            p_id = ci_parts[12]
+            orgNkreis = ci_parts[13]
 
+            soc_res = [[]]
+            row_col = "{}{:03d}".format(row, col)
+            soc_res[0].append(str(row_col))
+            soc_res[0].append(str(rotation))
+            soc_res[0].append(str((p_id)))
+            soc_res[0].append(str((KA5_txt)))
+            soc_res[0].append(str((soil_type)))
+            soc_res[0].append(str((orgNkreis)))
+            
             for data in result.get("data", []):
                 results = data.get("results", [])
                 orig_spec = data.get("origSpec", "")
@@ -320,13 +343,16 @@ def collector():
                     elif orig_spec == '"crop"':
                         res = create_crop_output(output_ids, row, col, rotation, prod_level, results, use_secondary_yields, start_recording_out, residue_humus_balance)
                         crop_data[region_id].extend(res)
+                    elif re.search('from', orig_spec):
+                        #only SOC is recorded with "from" "to"
+                        soc_res[0].append(results[0][0] * 100)
                     #if re.search('anthesis', orig_spec) or re.search('maturity', orig_spec) or re.search('Harvest', orig_spec):
                     #    update_pheno_output(output_ids, row, col, rotation, prod_level, results, pheno_data, region_id)
-
+            soc_data[region_id].extend(soc_res)
 
             for region_id in year_data.keys():
                 if len(year_data[region_id]) > start_writing_lines_threshold:
-                    write_data(region_id, year_data, crop_data, pheno_data, suffix)
+                    write_data(region_id, year_data, crop_data, pheno_data, soc_data, suffix)
 
             i = i + 1
 

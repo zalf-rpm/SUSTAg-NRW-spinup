@@ -21,7 +21,7 @@ config = {
     "server": "localhost",
     "push-port": "6666",
     "pull-port": "7777",
-    "runs-file": "unique_combinations_test.csv",
+    "runs-file": "unique_combinations_OID.csv",
     "rep": 20,
     "cal-method": "MLE"
 }
@@ -49,10 +49,11 @@ with open(basepath + "/" + config["runs-file"]) as _:
         soil_id = row[0]
         meteo_id = row[1].replace("(", "").replace(")", "").replace(", ", "_")
         rot_id = row[2]
-        env_file = soil_id + "_" + meteo_id + "_" + rot_id + ".json"
+        orgNkreise = str(int(float(row[3])))
+        env_file = soil_id + "_" + meteo_id + "_" + rot_id + "_" +  orgNkreise + ".json"
         profiles = []
         for i in range(4):
-            ref_index = i * 3 + 3
+            ref_index = i * 3 + 4
             if row[ref_index] == "":
                 continue
             prof = {}

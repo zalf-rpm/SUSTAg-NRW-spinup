@@ -1,6 +1,8 @@
-name,position in array,low,high,optguess,avg,st dev
-PartSMB_Fast_to_SOM_Fast,FALSE,0,1,0.6,0.6,0.3
-SOM_FastDecCoeffStandard,FALSE,0.000014,0.0014,0.00014,0.00014,0.00007
-PartSOM_Fast_to_SOM_Slow,FALSE,0,1,0.3,0.3,0.15
-SOM_SlowDecCoeffStandard,FALSE,0.0000043,0.00043,0.000043,0.000043,0.0000215
-PartSMB_Slow_to_SOM_Fast,FALSE,0,1,0.3,0.3,0.15
+name,low,high,optguess,avg,st dev,type
+PartSOM_Fast_to_SOM_Slow,0,1,0.3,0.3,0.075,soil
+SOM_FastDecCoeffStandard,0.000014,0.0014,0.00014,0.00014,0.000035,soil
+PartSMB_Fast_to_SOM_Fast,0,1,0.6,0.6,0.15,soil
+PartSMB_Slow_to_SOM_Fast,0,1,0.6,0.6,0.15,soil
+AOM_SlowDecCoeffStandard,0.00002,0.002,0.0002,0.0002,0.00005,fert
+SOM_SlowDecCoeffStandard,0.0000043,0.00043,0.000043,0.000043,0.00001075,soil
+AOM_SlowUtilizationEfficiency,0,1,0.4,0.4,0.1,soil

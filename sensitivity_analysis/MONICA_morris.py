@@ -12,7 +12,7 @@ import os
 import pandas
 
 basepath = os.path.dirname(os.path.abspath(__file__))
-envpath = os.path.dirname(basepath)
+envpath = os.path.dirname(basepath) + "/dumped_envs/"
 
 paths = {
     "cluster-path": "/archiv-daten/md/data/",
@@ -20,10 +20,9 @@ paths = {
 }
 
 config = {
-    "server": "localhost", #"cluster1", #"localhost",
+    "server": "cluster1", #"localhost",
     "push-port": "6666",
     "pull-port": "7777",
-    "runs-file": "unique_combinations_OID.csv",
     "write-all-out": False
 }
 
@@ -67,14 +66,33 @@ def collect_results(num_of_sims):
         if received_results == num_of_sims:
             leave = True
 
-def set_param(params_list, p_name, p_value):
+def set_param(params_list, p_name, p_value, p_stage=None, p_organ=None):
+    
+    def set_nested(par, index, p_value):
+        if len(index) == 1:
+            par[index[0]] = p_value
+        elif len(index) == 2:
+            par[index[0]][index[1]] = p_value
+        elif len(index) == 3:
+            par[index[0]][index[1]][index[2]] = p_value
+
+
     #loop over params data structure
-    for p, v in params_list.iteritems():
+    for p in params_list.keys():
         if p == p_name:
-            if isinstance(v, list):
-                v[0] = p_value
+            #explore nested structure
+            target = []
+            if isinstance(params_list[p], list) and isinstance(params_list[p][1], basestring):
+                target.append(0)
+            if p_stage != None:
+                target.append(p_stage)
+            if p_organ != None:
+                target.append(p_organ)
+            #set val accordingly
+            if len(target) == 0:
+                params_list[p] = p_value
             else:
-                print("!!!case not covered!!!")
+                set_nested(params_list[p], target, p_value)
 
 def seek_params(param_list, param_names, p_types, env):
     soilorg_params = env['params']['userSoilOrganicParameters']["DEFAULT"]
@@ -144,18 +162,6 @@ param_values = morris_pler.sample(problem, 30, 7, 1, optimal_trajectories=None, 
 
 print("simulation needed for SA: " + str(len(param_values)))
 
-#read unique combinations
-unique_combos = []
-with open(basepath + "/" + config["runs-file"]) as _:
-    reader = csv.reader(_)
-    next(reader, None) #skip header
-    for row in reader:
-        soil_id = row[0]
-        meteo_id = row[1].replace("(", "").replace(")", "").replace(", ", "_")
-        rot_id = row[2]
-        env_file = soil_id + "_" + meteo_id + "_" + rot_id + ".json"
-        unique_combos.append(env_file)
-
 #start connection and plug sockets
 context = zmq.Context()
 push_socket = context.socket(zmq.PUSH)
@@ -166,7 +172,7 @@ pull_socket = context.socket(zmq.PULL)
 s_pull = "tcp://" + config["server"]  + ":" + config["pull-port"]
 pull_socket.connect(s_pull)
 
-outfile = basepath + "/SA_results" + "_" + config["runs-file"]
+outfile = basepath + "/SA_results.csv"
 with open(outfile, 'wb') as _:
     writer = csv.writer(_)
     header = ["sim_id", "morris_index"]
@@ -180,13 +186,13 @@ with open(basepath + "/events.json") as _:
     events_json = json.load(_)
 
 counter = 0
-out_of = len(unique_combos)
+out_of = len([name for name in os.listdir(envpath) if os.path.isfile(os.path.join(envpath, name))])
 
-for env_file in unique_combos:
+for env_file in os.listdir(envpath):
     counter += 1
     print("starting SA with env " + str(env_file))
     #read proper env
-    with open(envpath + "/dumped_envs/" + env_file) as _:
+    with open(envpath + env_file) as _:
         env = json.load(_)
         #set path to climate
         path_0 = env["pathToClimateCSV"][0].split("data/")[1]
@@ -213,7 +219,7 @@ for env_file in unique_combos:
 
     for i, params in enumerate(param_values):
         env["customId"] = str(i)
-
+        
         seek_params(params, problem["names"], p_types, env)
 
         push_socket.send_json(env)

@@ -81,7 +81,8 @@ humus_equivalent = {
 #    humus_equivalent["crop"][cp_h] -= 0
 #macsur climate data:
 #PATH_TO_CLIMATE_DATA_DIR ="/archiv-daten/md/projects/sustag/MACSUR_WP3_NRW_1x1/" #"Z:/projects/sustag/MACSUR_WP3_NRW_1x1/"
-LOCAL_RUN = True 
+LOCAL_RUN = True
+SOC_STUDY = True #run only unique cells with multiple parameters sets
 
 EXPORT_PRESETS = {
     "all": {
@@ -231,10 +232,46 @@ def producer(setup=None):
 
     with open("json_templates/sims.json") as _:
         sims = json.load(_)
+        if SOC_STUDY:
+            sims = sims["soc_study"]
+        else:
+            sims = sims["potentials_study"]
         if FERT_STRATEGY != "NMIN":
             #turn off Nmin automatic fertilization
             for setting in sims.iteritems():
                 setting[1]["UseNMinMineralFertilisingMethod"] = False
+    
+    #load initialization SOC values
+    SOC_ini_vals = defaultdict(lambda: defaultdict())
+    with open("settings_SOC_study/mockup_SOCini_unique_combinations.csv") as _:
+        reader = csv.reader(_)
+        reader.next()
+        for row in reader:
+            param_id = row[0]
+            sim_id = row[1]
+            corgs = []
+            for i in range(3, 8):
+                if row[i] != "":
+                    corgs.append(float(row[i]))
+            SOC_ini_vals[param_id][sim_id] = corgs
+    
+    param_vals = defaultdict(lambda: defaultdict(float))
+    #load parameters sets (used only for SOC study)
+    with open("settings_SOC_study/mockup_params_sets.csv") as _:
+        reader = csv.reader(_)
+        reader.next()
+        reader.next()
+        for row in reader:
+            param_id = row[0]            
+            param_vals[param_id]["PartSMB_Fast_to_SOM_Fast"] = float(row[1])
+            param_vals[param_id]["SOM_FastDecCoeffStandard"] = float(row[2])
+            param_vals[param_id]["PartSOM_Fast_to_SOM_Slow"] = float(row[3])
+            param_vals[param_id]["SOM_SlowDecCoeffStandard"] = float(row[4])
+            param_vals[param_id]["PartSMB_Slow_to_SOM_Fast"] = float(row[5])
+            param_vals[param_id]["PartAOM_to_AOM_Fast"] = float(row[6])
+            param_vals[param_id]["AOM_SlowDecCoeffStandard"] = float(row[7])
+            param_vals[param_id]["AOM_SlowUtilizationEfficiency"] = float(row[8])
+
         
     def load_rotations(rotations_file, spinup):
         with open(rotations_file) as _:
@@ -425,6 +462,11 @@ def producer(setup=None):
             layer["SoilOrganicCarbon"][0] = layer["SoilOrganicCarbon"][0] * 0.6 #correction factor suggested by TGaiser
 
         return KA5_txt
+
+    def set_initial_SOC(SOC_vals):
+        for layer, val in enumerate(SOC_vals): 
+            site["SiteParameters"]["SoilProfileParameters"][layer]["SoilOrganicCarbon"][0] = val
+
 
     def read_header(path_to_ascii_grid_file):
         "read metadata from esri ascii grid file"
@@ -640,6 +682,27 @@ def producer(setup=None):
     def rotate(crop_rotation):
         "rotate the crops in the rotation"
         crop_rotation.insert(0, crop_rotation.pop())
+    
+    def set_params(env, params):
+        'set values of sensitive params'
+        soilorg_params = env['params']['userSoilOrganicParameters']["DEFAULT"]
+        crop_rotations = env["cropRotations"]
+
+        #TODO check after new SA if params are the same
+        soilorg_params["PartSMB_Fast_to_SOM_Fast"][0] = params["PartSMB_Fast_to_SOM_Fast"]
+        soilorg_params["SOM_FastDecCoeffStandard"][0] = params["SOM_FastDecCoeffStandard"]
+        soilorg_params["PartSOM_Fast_to_SOM_Slow"][0] = params["PartSOM_Fast_to_SOM_Slow"]
+        soilorg_params["SOM_SlowDecCoeffStandard"][0] = params["SOM_SlowDecCoeffStandard"]
+        soilorg_params["PartSMB_Slow_to_SOM_Fast"][0] = params["PartSMB_Slow_to_SOM_Fast"]
+        soilorg_params["AOM_SlowUtilizationEfficiency"][0] = params["AOM_SlowUtilizationEfficiency"]
+
+        for rot in crop_rotations:
+            for cm in rot["cropRotation"]:
+                for ws in cm["worksteps"]:
+                    if ws["type"] == "OrganicFertilization":
+                        ws["parameters"]["AOM_SlowDecCoeffStandard"][0] = params["AOM_SlowDecCoeffStandard"]
+                    elif ws["type"] == "Sowing":
+                        ws["crop"]["residueParams"]["PartAOM_to_AOM_Fast"][0] = params["PartAOM_to_AOM_Fast"]
 
     sent_id = 0
     start_send = time.clock()
@@ -659,7 +722,16 @@ def producer(setup=None):
     syll_center = syll + scellsize // 2
     syul_center = syll_center + (srows - 1)*scellsize
 
-    #unique_combos = {} #for calibration/SA envs
+    unique_combos = {} #for calibration/SA envs
+
+    run_params_id = []
+    if SOC_STUDY:
+        #investigate parameter uncertainty
+        for p_id in param_vals.keys():
+            run_params_id.append(p_id)
+    else:
+        #use only best parameter set
+        run_params_id.append("best")
 
     for (row, col), gmd in general_metadata.iteritems():
 
@@ -706,7 +778,7 @@ def producer(setup=None):
             simulated_cells += 1
 
             KA5_txt = update_soil(row, col)
-            #s_OID = soil_OID(soil_db_con, soil_ids[(row, col)])        
+            s_OID = soil_OID(soil_db_con, soil_ids[(row, col)])        
 
             light_soils = ["Ss", "Su2", "Su3", "Su4", "St2", "Sl3", "Sl2"]
             heavy_soils = ["Tu3", "Tu4", "Lt3", "Ts2", "Tl", "Tu2", "Tt"]
@@ -727,11 +799,12 @@ def producer(setup=None):
             #continue
 
             for rot_id, rotation in rotations[str(bkr_id)].iteritems():
+
                 
-                '''
                 #retrieve info for calibration/SA
+                '''
                 dump_env = False
-                if (s_OID, meteo_id, rot_id) not in unique_combos.keys():                    
+                if (s_OID, meteo_id, rot_id, orgN_kreise[kreis_id]) not in unique_combos.keys():
                     profs = []
                     dump_env = True
                     for prof in range(len(site["SiteParameters"]["SoilProfileParameters"])):
@@ -741,117 +814,131 @@ def producer(setup=None):
                             "N_layers": int(round(site["SiteParameters"]["SoilProfileParameters"][prof]["Thickness"][0] * 10))
                         }
                         profs.append(prof_info)
-                    unique_combos[(s_OID, meteo_id, rot_id)] = profs
-                    print "added combo OID: {0}, meteo: {1}, rot: {2}".format(str(s_OID), str(meteo_id), str(rot_id))
+                    unique_combos[(s_OID, meteo_id, rot_id, orgN_kreise[kreis_id])] = profs
+                    print "added combo OID: {0}, meteo: {1}, rot: {2}, org N: {3}".format(str(s_OID), str(meteo_id), str(rot_id), str(orgN_kreise[kreis_id]))
                 else:
                     continue
                 '''
-
-                ########for testing
-                #if rot_id not in ["9120", "7120", "7130", "8120", "6110", "6120", "5120", "1110", "1130", "3110", "3130", "2110", "2120", "2130", "4110", "4120"]:
-                #    continue
                 
-                #spinup period (1976-2004):
-                rotation_spinup = rotations_spinup[str(bkr_id)][rot_id]
-                ext_rot_spinup = extend_rotation(rotation_spinup, 4)
-                ext_rot_spinup, cc_in_cm_spinup = insert_CC(ext_rot_spinup, cover_crop_spinup, 1)
-                update_mineral_fert(ext_rot_spinup, cc_in_cm_spinup, rot_id, rots_info_spinup, spinup=True)
+                
+                m_id = str(meteo_id).replace("(", "").replace(")", "").replace(", ", "_")
+                unique_id = str(s_OID) + "_" + m_id + "_" + str(rot_id) + "_" + str(int(orgN_kreise[kreis_id]))
 
-                #following period (2005-2050):
-                ext_rot = extend_rotation(rotation, COVER_CROP_FREQ["out-of"])
-                ext_rot, cc_in_cm = insert_CC(ext_rot, cover_crop, COVER_CROP_FREQ["insert-cc-every"])
-                if FERT_STRATEGY == "BASE":
-                    update_mineral_fert(ext_rot, cc_in_cm, rot_id, rots_info)
-
-                crop_rot1 = compose_rotation(ext_rot_spinup)
-                crop_rot2 = compose_rotation(ext_rot)
-
-                crop["cropRotations"] = [
-                    {
-                        "start": "1976-01-01",
-                        "end": last_date_spinup[str(bkr_id)][rot_id].isoformat(),
-                        "cropRotation": crop_rot1
-                    },
-                    {
-                        "start": (last_date_spinup[str(bkr_id)][rot_id] + timedelta(days=1)).isoformat(),
-                        "end": "2050-12-31",
-                        "cropRotation": crop_rot2
-                    }
-                ]
-
-                env = monica_io.create_env_json_from_json_config({
-                    "crop": crop,
-                    "site": site,
-                    "sim": sim,
-                    "climate": ""
-                })
-                #env["sharedId"] = "ts_sustag_nrw"
-
-                #assign amount of organic fertilizer
-                for sim_period in range(2):
-                    for cultivation_method in env["cropRotations"][sim_period]["cropRotation"]:
-                        for workstep in cultivation_method["worksteps"]:
-                            if workstep["type"] == "OrganicFertilization":
-                                workstep["amount"][0] = calculate_orgfert_amount(orgN_kreise[kreis_id], workstep["parameters"])
-
-                #with open("test_crop.json", "w") as _:
-                #    _.write(json.dumps(crop, indent=4))
-
-                #climate is read by the server
-                env["csvViaHeaderOptions"] = sim["climate.csv-options"]
-                env["csvViaHeaderOptions"]["start-date"] = sim["start-date"]
-                env["csvViaHeaderOptions"]["end-date"] = sim["end-date"]
-                env["pathToClimateCSV"] = []
-
-                for PATH in PATH_TO_CLIMATE_DATA_DIR:
-                    env["pathToClimateCSV"].append(PATH + "row-" + str(meteo_id[0]) + "/col-" + str(meteo_id[1]) + ".csv")
-
-                for sim_id, sim_ in sims.iteritems():
-                    if sim_id != PRODUCTION_LEVEL:
+                if SOC_STUDY:
+                    #avoid repeating simulations which will yield the same results
+                    if unique_id not in unique_combos.keys():
+                        unique_combos[unique_id] = True
+                    else:
                         continue
-                    env["events"] = sim_["output"]
-                    env["params"]["simulationParameters"]["NitrogenResponseOn"] = sim_["NitrogenResponseOn"]
-                    env["params"]["simulationParameters"]["WaterDeficitResponseOn"] = sim_["WaterDeficitResponseOn"]
-                    env["params"]["simulationParameters"]["UseAutomaticIrrigation"] = sim_["UseAutomaticIrrigation"]
-                    env["params"]["simulationParameters"]["UseNMinMineralFertilisingMethod"] = sim_["UseNMinMineralFertilisingMethod"]
-                    env["params"]["simulationParameters"]["FrostKillOn"] = sim_["FrostKillOn"]
 
-                    '''
-                    if dump_env:
-                        #save the env for calibration/SA
-                        basepath = os.path.dirname(os.path.abspath(__file__))
-                        m_id = str(meteo_id).replace("(", "").replace(")", "").replace(", ", "_")
-                        file_id = str(s_OID) + "_" + m_id + "_" + str(rot_id)
-                        filename = basepath + "/dumped_envs/" + file_id + ".json"
-                        with open(filename, "w") as _:
-                            _.write(json.dumps(env, indent=4))
-                            print("dumped env: " + file_id)
+                for p_id in run_params_id:
+                    #set_initial_SOC(SOC_ini_vals[p_id][unique_id])# vals at the beginning of spinup TODO uncomment once initial SOC is available
+
+                    #spinup period (1976-2004):
+                    rotation_spinup = rotations_spinup[str(bkr_id)][rot_id]
+                    ext_rot_spinup = extend_rotation(rotation_spinup, 4)
+                    ext_rot_spinup, cc_in_cm_spinup = insert_CC(ext_rot_spinup, cover_crop_spinup, 1)
+                    update_mineral_fert(ext_rot_spinup, cc_in_cm_spinup, rot_id, rots_info_spinup, spinup=True)
+
+                    #following period (2005-2050):
+                    ext_rot = extend_rotation(rotation, COVER_CROP_FREQ["out-of"])
+                    ext_rot, cc_in_cm = insert_CC(ext_rot, cover_crop, COVER_CROP_FREQ["insert-cc-every"])
+                    if FERT_STRATEGY == "BASE":
+                        update_mineral_fert(ext_rot, cc_in_cm, rot_id, rots_info)
+
+                    crop_rot1 = compose_rotation(ext_rot_spinup)
+                    crop_rot2 = compose_rotation(ext_rot)
+
+                    crop["cropRotations"] = [
+                        {
+                            "start": "1976-01-01",
+                            "end": last_date_spinup[str(bkr_id)][rot_id].isoformat(),
+                            "cropRotation": crop_rot1
+                        },
+                        {
+                            "start": (last_date_spinup[str(bkr_id)][rot_id] + timedelta(days=1)).isoformat(),
+                            "end": "2050-12-31",
+                            "cropRotation": crop_rot2
+                        }
+                    ]
+
+                    env = monica_io.create_env_json_from_json_config({
+                        "crop": crop,
+                        "site": site,
+                        "sim": sim,
+                        "climate": ""
+                    })
+
+                    #set_params(env, param_vals[p_id])
+
+                    #assign amount of organic fertilizer
+                    for sim_period in range(2):
+                        for cultivation_method in env["cropRotations"][sim_period]["cropRotation"]:
+                            for workstep in cultivation_method["worksteps"]:
+                                if workstep["type"] == "OrganicFertilization":
+                                    workstep["amount"][0] = calculate_orgfert_amount(orgN_kreise[kreis_id], workstep["parameters"])
+
+                    #with open("test_crop.json", "w") as _:
+                    #    _.write(json.dumps(crop, indent=4))
+
+                    #climate is read by the server
+                    env["csvViaHeaderOptions"] = sim["climate.csv-options"]
+                    env["csvViaHeaderOptions"]["start-date"] = sim["start-date"]
+                    env["csvViaHeaderOptions"]["end-date"] = sim["end-date"]
+                    env["pathToClimateCSV"] = []
+
+                    for PATH in PATH_TO_CLIMATE_DATA_DIR:
+                        env["pathToClimateCSV"].append(PATH + "row-" + str(meteo_id[0]) + "/col-" + str(meteo_id[1]) + ".csv")
+
+                    for sim_id, sim_ in sims.iteritems():
+                        if sim_id != PRODUCTION_LEVEL:
+                            continue
+                        env["events"] = sim_["output"]
+                        env["params"]["simulationParameters"]["NitrogenResponseOn"] = sim_["NitrogenResponseOn"]
+                        env["params"]["simulationParameters"]["WaterDeficitResponseOn"] = sim_["WaterDeficitResponseOn"]
+                        env["params"]["simulationParameters"]["UseAutomaticIrrigation"] = sim_["UseAutomaticIrrigation"]
+                        env["params"]["simulationParameters"]["UseNMinMineralFertilisingMethod"] = sim_["UseNMinMineralFertilisingMethod"]
+                        env["params"]["simulationParameters"]["FrostKillOn"] = sim_["FrostKillOn"]
+
+                        
+                        #if dump_env:
+                        #    #save the env for calibration/SA
+                        #    basepath = os.path.dirname(os.path.abspath(__file__))
+                        #    filename = basepath + "/dumped_envs/" + unique_id + ".json"
+                        #    with open(filename, "w") as _:
+                        #        _.write(json.dumps(env, indent=4))
+                        #        print("dumped env: " + unique_id)
+                        
+                        
+                        for main_cp_iteration in range(0, len(rots_info[int(rot_id)])):
+                            #do not allow crop rotation of sim_period2 to start with a CC
+                            if "is-cover-crop" in env["cropRotations"][1]["cropRotation"][0].keys() and env["cropRotations"][1]["cropRotation"][0]["is-cover-crop"] == True:
+                                rotate(env["cropRotations"][1]["cropRotation"])
+                                                        
+                            env["customId"] = rot_id \
+                                            + "|" + sim_id \
+                                            + "|" + str(soil_id) \
+                                            + "|(" + str(row) + "/" + str(col) + ")" \
+                                            + "|" + str(bkr_id) \
+                                            + "|" + str(main_cp_iteration) \
+                                            + "|" + str(sim["UseSecondaryYields"]) \
+                                            + "|" + str(timeframes[TF]["start-recording-out"]) \
+                                            + "|" + str(RESIDUES_HUMUS_BALANCE) \
+                                            + "|" + suffix \
+                                            + "|" + KA5_txt \
+                                            + "|" + soil_type \
+                                            + "|" + p_id \
+                                            + "|" + str(orgN_kreise[kreis_id])
+                            
+                            
+                            socket.send_json(env)
+                            print "sent env ", sent_id, " customId: ", env["customId"]
+                            exit()
+                            sent_id += 1
+                            rotate(env["cropRotations"][1]["cropRotation"]) #only simperiod2 is rotated
+                            
                     
-                    '''
-                    for main_cp_iteration in range(0, len(rots_info[int(rot_id)])):
-                        #do not allow crop rotation of sim_period2 to start with a CC
-                        if "is-cover-crop" in env["cropRotations"][1]["cropRotation"][0].keys() and env["cropRotations"][1]["cropRotation"][0]["is-cover-crop"] == True:
-                            rotate(env["cropRotations"][1]["cropRotation"])
-
-                        env["customId"] = rot_id \
-                                        + "|" + sim_id \
-                                        + "|" + str(soil_id) \
-                                        + "|(" + str(row) + "/" + str(col) + ")" \
-                                        + "|" + str(bkr_id) \
-                                        + "|" + str(main_cp_iteration) \
-                                        + "|" + str(sim["UseSecondaryYields"]) \
-                                        + "|" + str(timeframes[TF]["start-recording-out"]) \
-                                        + "|" + str(RESIDUES_HUMUS_BALANCE) \
-                                        + "|" + suffix \
-                                        + "|" + KA5_txt \
-                                        + "|" + soil_type
-
-                        socket.send_json(env)
-                        print "sent env ", sent_id, " customId: ", env["customId"]
-                        sent_id += 1
-                        rotate(env["cropRotations"][1]["cropRotation"]) #only simperiod2 is rotated
-                    
-
+    #print(len(unique_combos.keys()))
     if export_lat_lon_file:
         export_lat_lon_file.close()
 
@@ -861,10 +948,10 @@ def producer(setup=None):
     print "simulated cells: ", simulated_cells, "; not found kreise for org N: ", no_kreis
 
 
-'''
+    '''
     with open("unique_combinations_OID.csv", "wb") as _:
         writer = csv.writer(_)
-        header = ["soil_OID", "meteo_id", "rot_id", 
+        header = ["soil_OID", "meteo_id", "rot_id", "orgN_kreise",
                 "profile_0_SOC", "thickness_0", "Nlayers_0",
                 "profile_1_SOC", "thickness_1",	"Nlayers_1",
                 "profile_2_SOC", "thickness_2",	"Nlayers_2",
@@ -877,12 +964,14 @@ def producer(setup=None):
             row.append(combo[0])
             row.append(combo[1])
             row.append(combo[2])
+            row.append(combo[3])
             for prof in range(len(unique_combos[combo])):
                 row.append(unique_combos[combo][prof]["SOC"])
                 row.append(unique_combos[combo][prof]["thickness"])
                 row.append(unique_combos[combo][prof]["N_layers"])
             writer.writerow(row)
 
+    
     with open("bkr2lk.csv", "wb") as _:
         writer = csv.writer(_, delimiter=",")
         header = ["bkr", "lk"]

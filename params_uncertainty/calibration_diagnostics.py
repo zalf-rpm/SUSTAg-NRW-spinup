@@ -1,7 +1,7 @@
 import spotpy
 import numpy as np
 import spotpy_setup_MONICA
-import helper_functions
+import helper_functions as helper
 import pylab as plt
 
 
@@ -50,24 +50,30 @@ def distrib_plot(results, spot_setup, min_vs, max_vs):
 
 
 #Analysis & plotting
-results = spotpy.analyser.load_csv_results('SCEUA')
+results = spotpy.analyser.load_csv_results('DEMCz')
 
-exp_maps = helper_functions.read_exp_map()
-obslist = helper_functions.read_obs()
-obslist = sorted(obslist, key=helper_functions.getKey)
-params = helper_functions.read_params()
+datasets = {
+    "muencheberg": {
+        "map_file": "crop_sim_site_MAP_mue.csv",
+        "observations": "observations_mue.csv",
+        "params": "calibratethese.csv",
+        "runexps": None # [13,25] #None: all
+    }
+}
+run = "muencheberg"
 
-spot_setup = spotpy_setup_MONICA.spot_setup(params, exp_maps, obslist)
+exp_maps = helper.read_exp_map(filename=datasets[run]["map_file"], exps=datasets[run]["runexps"])
+observations = helper.read_obs(filename=datasets[run]["observations"], exps=datasets[run]["runexps"])
+params = helper.read_params(datasets[run]["params"])
 
-posterior=spotpy.analyser.get_posterior(results)
+spot_setup = spotpy_setup_MONICA.spot_setup(params, exp_maps, observations, config=None, distrib="normal")
+
+posterior=spotpy.analyser.get_posterior(results, percentage=20)
 #spotpy.analyser.plot_parameterInteraction(posterior)
 #print("plotted posterior")
 
 min_vs,max_vs = find_min_max(spot_setup)
-distrib_plot(results, spot_setup, min_vs, max_vs)
-distrib_plot(posterior, spot_setup, min_vs, max_vs)
-
-#min_vs,max_vs = find_min_max(spot_setup)
 #distrib_plot(results, spot_setup, min_vs, max_vs)
+distrib_plot(posterior, spot_setup, min_vs, max_vs)
 
 print "finished"

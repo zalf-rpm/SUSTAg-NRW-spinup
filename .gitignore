@@ -31,6 +31,7 @@ calibration_initial_SOC/envs
 calibration_initial_SOC/unique_combinations_plus.csv
 calibration_initial_SOC/unique_combinations_test.csv
 calibration_initial_SOC/optparams_unique_combinations_test.csv
+calibration_initial_SOC/optparams_unique_combinations_OID.csv
 calibration_initial_SOC/test_calibration_results
 sensitivity_analysis/test_dump_out
 sensitivity_analysis/out-runs
@@ -40,4 +41,9 @@ params_uncertainty/param_files
 params_uncertainty/sim_files
 params_uncertainty/site_files
 params_uncertainty/observations.csv
+params_uncertainty/old
+params_uncertainty/DEMCz.csv
+params_uncertainty/observations*
+params_uncertainty/*.png
+
 *.pyc

@@ -2,118 +2,64 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-import os
 import spotpy
 import spotpy_setup_MONICA
 import csv
-from datetime import date
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import colors
-from collections import defaultdict
-import helper_functions
+import helper_functions as helper
 
-font = {'family' : 'calibri',
-    'weight' : 'normal',
-    'size'   : 18}
+config = {
+    "server": "cluster1", #"localhost"
+    "push-port": "6666",
+    "pull-port": "7777"
+}
 
-def produce_plot(experiments, variable, ylabel='Best model simulation', xlabel='Date'):    
-    #cnames = list(colors.cnames)
+datasets = {
+    "c_mip_deprecated": {
+        "map_file": "crop_sim_site_MAP_cmip.csv",
+        "observations": "observations_cmip.csv",
+        "params": "calibratethese.csv",
+        "runexps": [1] # 1: Askov, 3: Grignon, 4: Kursk, 5: Rothamsted, 6: Ultuna, 7: Versailles, None: all
+    },
+    "muencheberg": {
+        "map_file": "crop_sim_site_MAP_mue.csv",
+        "observations": "observations_mue.csv",
+        "params": "calibratethese.csv",
+        "runexps": None # [13,25] #None: all
+    }
+}
+run = "muencheberg"
 
-    plt.rc('font', **font)
-    colors = ['grey', 'black', 'brown', 'red', 'orange', 'yellow', 'green', 'blue']
-    n_subplots = max(2, len(experiments))
-    # N subplots, sharing x axis
-    width = 20
-    height = n_subplots * 10
-    f, axarr = plt.subplots(n_subplots, sharex=False, figsize=(width, height))
-    i=0
-    for exp in experiments:
-        RMSE = spotpy.objectivefunctions.rmse(experiments[exp]["obs"], experiments[exp]["sims"])
-        axarr[i].plot(experiments[exp]["dates"], experiments[exp]["obs"], 'ro', markersize=8, label='obs data')
-        #axarr[i].plot(experiments[exp]["dates"], experiments[exp]["sims"],'-', color=colors[7], linewidth=2, label='exp ' + exp + ': RMSE=' + str(round(RMSE, 2)))
-        axarr[i].plot(experiments[exp]["all_dates"], experiments[exp]["daily"],'-', color=colors[7], linewidth=2, label='exp ' + exp + ': RMSE=' + str(round(RMSE, 3)))
-        axarr[i].legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
-        #axarr[i].set_title(str(exp))
-        i +=1
-    filename = variable + '.png'
-    f.savefig(filename)
-    text = 'A figure has been saved as ' + filename
-    print(text)
+exp_maps = helper.read_exp_map(filename=datasets[run]["map_file"], exps=datasets[run]["runexps"])
+observations = helper.read_obs(filename=datasets[run]["observations"], exps=datasets[run]["runexps"])
+params = helper.read_params(datasets[run]["params"])
 
+spot_setup = spotpy_setup_MONICA.spot_setup(params, exp_maps, observations, config, distrib="normal")
 
-exp_maps= helper_functions.read_exp_map()
-obslist = helper_functions.read_obs()
-#order obslist by exp_id to avoid mismatch between observation/evaluation lists
-obslist = sorted(obslist, key=helper_functions.getKey)
-params = helper_functions.read_params()
-
-spot_setup = spotpy_setup_MONICA.spot_setup(params, exp_maps, obslist, distrib="normal")
-rep = 500
-results = []
 
 sampler = spotpy.algorithms.demcz(spot_setup, dbname='DEMCz', dbformat='csv')
-sampler.sample(rep)
-
-#sampler = spotpy.algorithms.sceua(spot_setup, dbname='SCEUA', dbformat='csv')
-#sampler.sample(rep, ngs=len(params)+1, kstop=50)
-
-results.append(sampler.getdata())
-
+sampler.sample(200)
 best = sampler.status.params
 
 with open('optimizedparams.csv', 'wb') as outcsvfile:
-    writer = csv.writer(outcsvfile)        
+    writer = csv.writer(outcsvfile)
     for i in range(len(best)):
         outrow=[]
-        arr_pos = ""
-        if params[i]["array"].upper() != "FALSE":
-            arr_pos = params[i]["array"]        
-        outrow.append(params[i]["name"]+arr_pos)
+        outrow.append(params[i]["name"])
         outrow.append(best[i])
         writer.writerow(outrow)
-    if len(params) > len(best):
-        reminder = []
-        reminder.append("Don't forget to calculate and set derived params!")
-        writer.writerow(reminder)
     text='optimized parameters saved!'
     print(text)
 
-#PLOTTING
-#get the best model run
-for i in range(len(results)):
-    index,maximum=spotpy.analyser.get_maxlikeindex(results[i])
-
-bestmodelrun=list(spotpy.analyser.get_modelruns(results[i])[index][0]) #Transform values into list to ensure plotting
-
-obs_dates = spot_setup.evaluation(get_dates_dict=True)
-obs_values = spot_setup.evaluation(get_values_dict=True)
-
 #Run with optimized params
 print("running simulations with optimized params")
-spot_setup = spotpy_setup_MONICA.spot_setup(params, exp_maps, obslist, True)
-daily_out = spot_setup.simulation(best, True)
+simulations = spot_setup.simulation(best, True)
 
-#retrieve info for plots
+#test_plot_params = [0.092149442151153976, 0.00014319894113422492, 0.57139534158491667, 0.57521733905356565, 0.00026468815754662268, 5.8581353535972362e-05, 0.33324556113900239]
+#simulations = spot_setup.simulation(test_plot_params, True)
+
+#plot results
 print("preparing charts...")
-for variable in obs_dates:
-    exps = {}
-    for experiment in obs_dates[variable]:
-        sims = []
-        obs = []
-        dates = []
-        for k,v in obs_dates[variable][experiment]:
-            sims.append(bestmodelrun[k])
-            dates.append(v)
-        for k,v in obs_values[variable][experiment]:
-            obs.append(v)
-        exps[experiment] = {}
-        exps[experiment]["dates"] = dates
-        exps[experiment]["sims"] = sims
-        exps[experiment]["obs"] = obs
-        exps[experiment]["daily"] = daily_out[int(experiment)][variable]
-        exps[experiment]["all_dates"] = daily_out[int(experiment)]["Date"]
-    produce_plot(exps,variable)
+helper.SOC_plot(observations, simulations, filename="SOC_muench.png")
 
 print("finished!")
 
