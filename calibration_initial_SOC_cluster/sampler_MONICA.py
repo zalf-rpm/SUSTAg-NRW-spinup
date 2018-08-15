@@ -12,6 +12,8 @@ from collections import defaultdict
 import sys
 import json
 import numpy as np
+from subprocess import call, Popen
+import time
 
 def set_param(params_list, p_name, p_value):
     #check nested structure
@@ -26,14 +28,14 @@ def set_param(params_list, p_name, p_value):
 
 paths = {
     "cluster-path": "/archiv-daten/md/data/",
-    "local-path": "z:/data/",
-    "env-path": "Z:/projects/sustag/spinup-version/"
+    "env-path": "/archiv-daten/md/projects/sustag/spinup-version/"
 }
 
 config = {
     "server": "localhost",
-    "push-port": "6666",
-    "pull-port": "7777",
+    "number": "0",
+    "push-port": "6600",
+    "pull-port": "7700",
     "runs-file": "unique_combinations_OID.csv",
     "start-row": 10,
     "end-row": 20,
@@ -46,11 +48,20 @@ if len(sys.argv) > 1:
         if k in config:
             config[k] = v
 
+config["push-port"] = str(int(config["push-port"])+int(config["number"]))
+config["pull-port"] = str(int(config["pull-port"])+int(config["number"]))
+
+monica_server = Popen(["/media/data1/data2/rpm/code/cluster1-release/monica/monica-zmq-server", \
+                        "-bi", "-i", "tcp://*:"+config["push-port"], "-bo", \
+                        "-o", "tcp://*:"+config["pull-port"]], \
+                        cwd="/media/data1/data2/rpm/code/monica/")
+print("monica_server running on in:", config["push-port"], "out:", config["pull-port"])
+
 basepath = os.path.dirname(os.path.abspath(__file__))
 #envpath = os.path.dirname(basepath)
 envpath = paths["env-path"]
 
-outfile = basepath + "/optparams" + "_" + config["runs-file"]
+outfile = basepath + "/optparams" + "_from_" + str(config["start-row"]) + "_to_" + str(config["end-row"]) + ".csv"
 with open(outfile, 'wb') as _:
     writer = csv.writer(_)
     header = ["params_id", "sim_id", "RMSE (% Corg)", "Corg_0", "Corg_1", "Corg_2", "Corg_3", "Corg_4"]
@@ -64,9 +75,9 @@ with open(basepath + "/" + config["runs-file"]) as _:
     row_count = 0
     for row in reader:
         row_count +=1
-        if row_count < config["start-row"]:
+        if row_count < int(config["start-row"]):
             continue
-        if row_count > config["end-row"]:
+        if row_count > int(config["end-row"]):
             continue
         soil_id = row[0]
         meteo_id = row[1].replace("(", "").replace(")", "").replace(", ", "_")
@@ -83,6 +94,8 @@ with open(basepath + "/" + config["runs-file"]) as _:
             prof["Nlay"] = int(row[ref_index +2])
             profiles.append(prof)
         unique_combos.append((env_file, profiles))
+        
+        
 
 #read set of relevant and uncertain params
 uncertain_params = np.genfromtxt(basepath + "/sample_15.csv", dtype=float, delimiter=',', names=True)
@@ -95,13 +108,9 @@ for env_file, profiles in unique_combos:
         #set correct path to climate
         path_0 = env["pathToClimateCSV"][0].split("data/")[1]
         path_1 = env["pathToClimateCSV"][1].split("data/")[1]
-        if config["server"] == "localhost" or config["server"] == "10.10.26.34":
-            env["pathToClimateCSV"][0] = paths["local-path"] + path_0
-            env["pathToClimateCSV"][1] = paths["local-path"] + path_1
-        else:
-            env["pathToClimateCSV"][0] = paths["cluster-path"] + path_0
-            env["pathToClimateCSV"][1] = paths["cluster-path"] + path_1
-        #modify end date (no need to simulate to 2050)
+        env["pathToClimateCSV"][0] = paths["cluster-path"] + path_0
+        env["pathToClimateCSV"][1] = paths["cluster-path"] + path_1
+        #modify dates (start as early as possible, no need to simulate to 2050)
         env["csvViaHeaderOptions"]["start-date"] = "1971-01-01"
         env["csvViaHeaderOptions"]["end-date"] = "2004-12-31"
         env["customId"] = env_file.replace(".json", "")
@@ -247,6 +256,8 @@ for env_file, profiles in unique_combos:
             writer.writerow(row)
 
 print("finished!")
+monica_server.kill()
+
 
 
 

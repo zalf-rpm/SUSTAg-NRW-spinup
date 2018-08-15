@@ -11,17 +11,16 @@ import helper_functions as helper
 
 
 class monica_adapter(object):
-    def __init__(self, exp_maps, observations, config, finalrun):
-
+    def __init__(self, exp_maps, observations, config, finalrun):        
         #read params - they will be modified in the run method
-        soilorg_params_path = "C:/Users/stella/Documents/GitHub/monica-parameters/general/soil-organic.json"
-        fertorg_params_path = "C:/Users/stella/Documents/GitHub/monica-parameters/organic-fertilisers/CAM.json"
-
-        with open(soilorg_params_path) as _:
+        with open(config["soilorg_params_path"]) as _:
             self.soil_organic_params = json.load(_)
         
-        with open(fertorg_params_path) as _:
+        with open(config["fertorg_params_path"]) as _:
             self.fert_organic_params = json.load(_)
+            #following params were calibrated using exps 25 and 35 from V140 Muencheberg
+            self.fert_organic_params["PartAOM_to_AOM_Fast"][0] = 0.81
+            self.fert_organic_params["PartAOM_to_AOM_Slow"][0] = 0.19
         
         #observations data structures
         self.observations = observations
@@ -59,7 +58,7 @@ class monica_adapter(object):
 
             #customize events section
             env["events"] = []
-            with open("template_events.json") as _:
+            with open(config["events-file"]) as _:
                 json_out = json.load(_)
                 env["events"] = json_out["events"]
 
@@ -75,7 +74,7 @@ class monica_adapter(object):
                 env["pathToClimateCSV"].append(sim["climate.csv"].replace(local_path_to_climate, cluster_path_to_climate).replace("\\", "/"))
                 #print env["pathToClimateCSV"][0]
 
-            env["customId"] = str(exp_map["treatment"]) + "|" + str(exp_map["parcel"])
+            env["customId"] = str(exp_map["treatment"]) + "|" + str(exp_map["parcel"]) + "|"  + config["events-file"]
 
             self.envs.append(env)
 
@@ -116,6 +115,9 @@ class monica_adapter(object):
                 set_param(self.soil_organic_params, p_name, p_value)
             elif p_type == "fert":
                 set_param(self.fert_organic_params, p_name, p_value)
+                #change derived params
+                if p_name == "PartAOM_to_AOM_Fast":
+                    set_param(self.fert_organic_params, "PartAOM_to_AOM_Slow", (1 - p_value))
 
         #launch parallel thread for the collector
         collector = Thread(target=self.collect_results)
@@ -151,14 +153,30 @@ class monica_adapter(object):
             custom_id = rec_msg["customId"].split("|")
             treatment = int(custom_id[0])
             parcel = int(custom_id[1])
+            events_file = custom_id[2]
             years = rec_msg["data"][0]["results"][0]
-            vals = rec_msg["data"][0]["results"][1]
 
-            for i in range(len(years)):
-                yr = years[i]
-                self.simulations[treatment][yr]["parcel"].append(parcel)
-                self.simulations[treatment][yr]["data"].append(vals[i] * 100)
-                #!!!!!! * 100 converts kg kg-1 to %
+            if events_file == "template_events_SOC.json":
+                #normal case (calibration)                
+                vals = rec_msg["data"][0]["results"][1]
+
+                for i in range(len(years)):
+                    yr = years[i]
+                    self.simulations[treatment][yr]["parcel"].append(parcel)
+                    self.simulations[treatment][yr]["data"].append(vals[i] * 100)
+                    #!!!!!! * 100 converts kg kg-1 to %
+            
+            elif events_file == "template_events_SOC_fractions.json":
+                #additional output to evaluate spinup
+                for res_id in range(len(rec_msg["data"][0]["results"])):
+                    if res_id==0:
+                        #skip "years"
+                        continue
+                    out_name = rec_msg["data"][0]["outputIds"][res_id]["name"]
+                    vals = rec_msg["data"][0]["results"][res_id]
+                    for i in range(len(years)):
+                        yr = years[i]
+                        self.simulations[treatment][yr][out_name].append(vals[i])
 
             received_results += 1
 

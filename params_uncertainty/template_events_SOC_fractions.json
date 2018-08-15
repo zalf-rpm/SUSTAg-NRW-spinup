@@ -1,0 +1,14 @@
+{
+    "events":[
+        "yearly", [
+                ["Year", "FIRST"],
+                ["AOMf", [1, 3, "AVG"]],
+				["AOMs", [1, 3, "AVG"]],
+				["SMBf", [1, 3, "AVG"]],
+				["SMBs", [1, 3, "AVG"]],
+				["SOMf", [1, 3, "AVG"]],
+				["SOMs", [1, 3, "AVG"]]
+            ]
+    ]
+    
+}

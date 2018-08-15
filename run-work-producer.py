@@ -49,9 +49,9 @@ PATHS = {
 
 timeframes = {
     "continuous": {
-        "start-date": "1976-01-01",
+        "start-date": "1971-01-01",
         "end-date": "2050-12-31",
-        "start-recording-out": 1976,
+        "start-recording-out": 1971,
         "cluster-path-to-climate": ["/archiv-daten/md/data/climate/isimip/csvs/IPSL-CM5A-LR/historical/earth/", "/archiv-daten/md/data/climate/isimip/csvs/IPSL-CM5A-LR/rcp2p6/germany-nrw/"], #base + rcp 2.6
         "local-path-to-climate": ["z:/data/climate/isimip/csvs/IPSL-CM5A-LR/historical/earth/", "z:/data/climate/isimip/csvs/IPSL-CM5A-LR/rcp2p6/germany-nrw/"] #base + rcp 2.6
     }
@@ -330,7 +330,7 @@ def producer(setup=None):
     for bkr_id in rotations_spinup.keys():
         for rot_id in rotations_spinup[bkr_id].keys():
             rotation_spinup = rotations_spinup[bkr_id][rot_id]
-            my_year = 1976
+            my_year = 1971
             last_date = None
             i = 0
             while True:
@@ -834,7 +834,7 @@ def producer(setup=None):
                 for p_id in run_params_id:
                     #set_initial_SOC(SOC_ini_vals[p_id][unique_id])# vals at the beginning of spinup TODO uncomment once initial SOC is available
 
-                    #spinup period (1976-2004):
+                    #spinup period (1971-2004):
                     rotation_spinup = rotations_spinup[str(bkr_id)][rot_id]
                     ext_rot_spinup = extend_rotation(rotation_spinup, 4)
                     ext_rot_spinup, cc_in_cm_spinup = insert_CC(ext_rot_spinup, cover_crop_spinup, 1)
@@ -851,7 +851,7 @@ def producer(setup=None):
 
                     crop["cropRotations"] = [
                         {
-                            "start": "1976-01-01",
+                            "start": "1971-01-01",
                             "end": last_date_spinup[str(bkr_id)][rot_id].isoformat(),
                             "cropRotation": crop_rot1
                         },

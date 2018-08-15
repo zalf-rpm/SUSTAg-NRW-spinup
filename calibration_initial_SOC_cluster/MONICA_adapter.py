@@ -1,6 +1,5 @@
 import json
 import sys
-import monica_io
 import zmq
 import csv
 import os

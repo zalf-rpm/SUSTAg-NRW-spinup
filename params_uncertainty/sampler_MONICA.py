@@ -8,9 +8,12 @@ import csv
 import helper_functions as helper
 
 config = {
-    "server": "cluster1", #"localhost"
+    "server": "cluster1", #"cluster1", "localhost"
     "push-port": "6666",
-    "pull-port": "7777"
+    "pull-port": "7777",
+    "events-file": "template_events_SOC.json",
+    "soilorg_params_path": "C:/Users/stella/Documents/GitHub/monica-parameters/general/soil-organic.json",
+    "fertorg_params_path": "C:/Users/stella/Documents/GitHub/monica-parameters/organic-fertilisers/CAM.json"
 }
 
 datasets = {
@@ -24,7 +27,7 @@ datasets = {
         "map_file": "crop_sim_site_MAP_mue.csv",
         "observations": "observations_mue.csv",
         "params": "calibratethese.csv",
-        "runexps": None # [13,25] #None: all
+        "runexps": None #[13,25] #None: all
     }
 }
 run = "muencheberg"
@@ -35,9 +38,8 @@ params = helper.read_params(datasets[run]["params"])
 
 spot_setup = spotpy_setup_MONICA.spot_setup(params, exp_maps, observations, config, distrib="normal")
 
-
 sampler = spotpy.algorithms.demcz(spot_setup, dbname='DEMCz', dbformat='csv')
-sampler.sample(200)
+sampler.sample(1000)
 best = sampler.status.params
 
 with open('optimizedparams.csv', 'wb') as outcsvfile:
@@ -54,12 +56,13 @@ with open('optimizedparams.csv', 'wb') as outcsvfile:
 print("running simulations with optimized params")
 simulations = spot_setup.simulation(best, True)
 
-#test_plot_params = [0.092149442151153976, 0.00014319894113422492, 0.57139534158491667, 0.57521733905356565, 0.00026468815754662268, 5.8581353535972362e-05, 0.33324556113900239]
-#simulations = spot_setup.simulation(test_plot_params, True)
+#opt_params = [0.280363071077091, 0.000133212927255853, 0.537688327637781, 0.671181424873132, 0.000336789789134262, 0.0000603273664091705, 0.607108557360137]
+#simulations = spot_setup.simulation(opt_params, True)
 
 #plot results
 print("preparing charts...")
-helper.SOC_plot(observations, simulations, filename="SOC_muench.png")
+#helper.SOC_fractions_plot(simulations, filename="SOC_fractions_muench_new.png") #change template events, skip calibration and run with opt params to use this
+helper.SOC_plot(observations, simulations, filename="SOC_muench_1000.png")
 
 print("finished!")
 

@@ -18,7 +18,8 @@ class spot_setup(object):
             elif distrib.lower() == "normal":
                 #self.params.append(spotpy.parameter.Normal(name=parname, mean=par["avg"], stddev=par["st_dev"], optguess=par["optguess"], minbound=max(par["low"], 0.000001), maxbound=par["high"]))
                 self.params.append(spotpy.parameter.Normal(name=parname, mean=par["avg"], stddev=par["st_dev"], optguess=par["optguess"], minbound=par["low"], maxbound=par["high"]))
-        self.monica_model = MONICA_adapter.monica_adapter(exp_maps, observations, config, finalrun)
+        if config != None:
+            self.monica_model = MONICA_adapter.monica_adapter(exp_maps, observations, config, finalrun)
 
     def parameters(self):
         return spotpy.parameter.generate(self.params)

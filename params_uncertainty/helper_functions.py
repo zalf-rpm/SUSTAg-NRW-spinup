@@ -113,6 +113,7 @@ def SOC_plot(observations, simulations, filename):
         sim_shortlist = create_spotpylist(observations, simulations, treatment=treatment)
         RMSE = spotpy.objectivefunctions.rmse(obs_shortlist, sim_shortlist)
         EF = spotpy.objectivefunctions.nashsutcliffe(obs_shortlist, sim_shortlist)
+        R2 = spotpy.objectivefunctions.rsquared(obs_shortlist, sim_shortlist)
 
         #boxplot observations
         years = sorted(observations[treatment].keys())
@@ -132,10 +133,42 @@ def SOC_plot(observations, simulations, filename):
             avgs.append(float(np.mean(yr_data)))
             mins.append(min(yr_data))
             maxs.append(max(yr_data))
-        my_label = 'T ' + str(treatment) + ': RMSE=' + str(round(RMSE, 3)) + ' EF=' + str(round(EF, 3))
+        my_label = 'T ' + str(treatment) + ': RMSE=' + str(round(RMSE, 3)) + ' EF=' + str(round(EF, 3)) + ' R2=' + str(round(R2, 3))
         axarr[i].plot(years, avgs, "-", label=my_label)
         axarr[i].fill_between(years, mins, maxs, alpha=0.2)
         axarr[i].legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+        
+        i +=1
+
+    f.savefig(filename)
+    print('A figure has been saved as ' + filename)
+
+
+def SOC_fractions_plot(simulations, filename):    
+    font = {
+        'family' : 'calibri',
+        'weight' : 'normal',
+        'size'   : 18
+    }
+    
+    plt.rc('font', **font)    
+    n_subplots = max(2, len(simulations.keys()))
+    # N subplots, sharing x axis
+    width = 20
+    height = n_subplots * 10
+    f, axarr = plt.subplots(n_subplots, sharex=False, figsize=(width, height))
+    i=0
+    for treatment in sorted(simulations.keys()):
+        #line simulations
+        years = sorted(simulations[treatment].keys())
+        for out_var in simulations[treatment][years[0]].keys():
+            avgs = []                
+            for yr in years:
+                yr_data = simulations[treatment][yr][out_var]
+                avgs.append(float(np.mean(yr_data)))
+            my_label = 'T ' + str(treatment) + " " + out_var
+            axarr[i].plot(years, avgs, "-", label=my_label)
+            axarr[i].legend(loc='center left')
         
         i +=1
 
