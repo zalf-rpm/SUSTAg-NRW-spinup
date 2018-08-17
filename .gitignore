@@ -45,5 +45,7 @@ params_uncertainty/old
 params_uncertainty/DEMCz.csv
 params_uncertainty/observations*
 params_uncertainty/*.png
+settings_SOC_study/merge
+SOC_out/
 
 *.pyc

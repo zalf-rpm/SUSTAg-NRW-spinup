@@ -35,8 +35,8 @@ config = {
     "push-port": "6666",
     "pull-port": "7777",
     "runs-file": "unique_combinations_OID.csv",
-    "start-row": 10,
-    "end-row": 20,
+    "start-row": 4600,
+    "end-row": 4600,
     "rep": 20,
     "cal-method": "MLE"
 }
@@ -167,6 +167,9 @@ for env_file, profiles in unique_combos:
     params_id = -1
     for p_set in uncertain_params:
         params_id += 1
+        #debug
+        #if params_id != 14:
+        #    continue
         print("optimizing for parameter set: " + str(params_id))
         soil_params = [
             {

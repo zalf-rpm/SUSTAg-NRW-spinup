@@ -33,6 +33,7 @@ import numpy as np
 from scipy.interpolate import NearestNDInterpolator
 from pyproj import Proj, transform
 from collections import defaultdict
+import monica_io
 
 USER = "stella"
 
@@ -81,8 +82,9 @@ humus_equivalent = {
 #    humus_equivalent["crop"][cp_h] -= 0
 #macsur climate data:
 #PATH_TO_CLIMATE_DATA_DIR ="/archiv-daten/md/projects/sustag/MACSUR_WP3_NRW_1x1/" #"Z:/projects/sustag/MACSUR_WP3_NRW_1x1/"
-LOCAL_RUN = True
+LOCAL_RUN = False
 SOC_STUDY = True #run only unique cells with multiple parameters sets
+PARAMETERS_FILE = "params_sample_15.csv"
 
 EXPORT_PRESETS = {
     "all": {
@@ -130,7 +132,11 @@ CROP_USAGE_HUMBAL = {
 
 def producer(setup=None):
     "main function"
-    import monica_io #TODO: check if this fixes the problem of running a sequence of setups
+    # reload monica_io module so that cached references will be cleared
+    # this is a problem because the "crops" key in crop.json is changed on every call to this function
+    # and thus for every setup, but calls to ["ref", "crops", "XXX"] will cache the result of 
+    # resolving references to XXX and thus the updates to XXX for the secondary yield further up won't happen 
+    reload(monica_io)
 
     paths = PATHS[USER]
 
@@ -200,7 +206,7 @@ def producer(setup=None):
     if LOCAL_RUN:
         socket.connect("tcp://localhost:6666")
     else:
-        socket.connect("tcp://cluster3:" + str(port))
+        socket.connect("tcp://cluster1:" + str(port))
 
     soil_db_con = sqlite3.connect("soil.sqlite")
 
@@ -243,34 +249,35 @@ def producer(setup=None):
     
     #load initialization SOC values
     SOC_ini_vals = defaultdict(lambda: defaultdict())
-    with open("settings_SOC_study/mockup_SOCini_unique_combinations.csv") as _:
+    with open("settings_SOC_study/SOCini_unique_combinations.csv") as _:
         reader = csv.reader(_)
         reader.next()
         for row in reader:
-            param_id = row[0]
+            param_id = int(row[0])
             sim_id = row[1]
             corgs = []
             for i in range(3, 8):
-                if row[i] != "":
+                if len(row) > i and row[i] != "":
                     corgs.append(float(row[i]))
             SOC_ini_vals[param_id][sim_id] = corgs
     
     param_vals = defaultdict(lambda: defaultdict(float))
     #load parameters sets (used only for SOC study)
-    with open("settings_SOC_study/mockup_params_sets.csv") as _:
+    with open("settings_SOC_study/" + PARAMETERS_FILE) as _:
         reader = csv.reader(_)
         reader.next()
-        reader.next()
         for row in reader:
-            param_id = row[0]            
-            param_vals[param_id]["PartSMB_Fast_to_SOM_Fast"] = float(row[1])
+            param_id = int(row[0])
+            param_vals[param_id]["PartSOM_Fast_to_SOM_Slow"] = float(row[1])
             param_vals[param_id]["SOM_FastDecCoeffStandard"] = float(row[2])
-            param_vals[param_id]["PartSOM_Fast_to_SOM_Slow"] = float(row[3])
-            param_vals[param_id]["SOM_SlowDecCoeffStandard"] = float(row[4])
-            param_vals[param_id]["PartSMB_Slow_to_SOM_Fast"] = float(row[5])
-            param_vals[param_id]["PartAOM_to_AOM_Fast"] = float(row[6])
-            param_vals[param_id]["AOM_SlowDecCoeffStandard"] = float(row[7])
-            param_vals[param_id]["AOM_SlowUtilizationEfficiency"] = float(row[8])
+            param_vals[param_id]["PartSMB_Fast_to_SOM_Fast"] = float(row[3])
+            param_vals[param_id]["PartSMB_Slow_to_SOM_Fast"] = float(row[4])
+            param_vals[param_id]["AOM_SlowDecCoeffStandard"] = float(row[5])
+            param_vals[param_id]["SOM_SlowDecCoeffStandard"] = float(row[6])
+            param_vals[param_id]["AOM_SlowUtilizationEfficiency"] = float(row[7])
+            #following two params were calibrated using exps 25 and 35 from V140 Muencheberg
+            param_vals[param_id]["PartAOM_to_AOM_Fast"] = 0.81
+            param_vals[param_id]["PartAOM_to_AOM_Slow"] = 0.19
 
         
     def load_rotations(rotations_file, spinup):
@@ -688,12 +695,11 @@ def producer(setup=None):
         soilorg_params = env['params']['userSoilOrganicParameters']["DEFAULT"]
         crop_rotations = env["cropRotations"]
 
-        #TODO check after new SA if params are the same
-        soilorg_params["PartSMB_Fast_to_SOM_Fast"][0] = params["PartSMB_Fast_to_SOM_Fast"]
-        soilorg_params["SOM_FastDecCoeffStandard"][0] = params["SOM_FastDecCoeffStandard"]
         soilorg_params["PartSOM_Fast_to_SOM_Slow"][0] = params["PartSOM_Fast_to_SOM_Slow"]
-        soilorg_params["SOM_SlowDecCoeffStandard"][0] = params["SOM_SlowDecCoeffStandard"]
+        soilorg_params["SOM_FastDecCoeffStandard"][0] = params["SOM_FastDecCoeffStandard"]
+        soilorg_params["PartSMB_Fast_to_SOM_Fast"][0] = params["PartSMB_Fast_to_SOM_Fast"]
         soilorg_params["PartSMB_Slow_to_SOM_Fast"][0] = params["PartSMB_Slow_to_SOM_Fast"]
+        soilorg_params["SOM_SlowDecCoeffStandard"][0] = params["SOM_SlowDecCoeffStandard"]
         soilorg_params["AOM_SlowUtilizationEfficiency"][0] = params["AOM_SlowUtilizationEfficiency"]
 
         for rot in crop_rotations:
@@ -701,13 +707,16 @@ def producer(setup=None):
                 for ws in cm["worksteps"]:
                     if ws["type"] == "OrganicFertilization":
                         ws["parameters"]["AOM_SlowDecCoeffStandard"][0] = params["AOM_SlowDecCoeffStandard"]
-                    elif ws["type"] == "Sowing":
-                        ws["crop"]["residueParams"]["PartAOM_to_AOM_Fast"][0] = params["PartAOM_to_AOM_Fast"]
+                        ws["parameters"]["PartAOM_to_AOM_Fast"][0] = params["PartAOM_to_AOM_Fast"]
+                        ws["parameters"]["PartAOM_to_AOM_Slow"][0] = params["PartAOM_to_AOM_Slow"]
+                    #elif ws["type"] == "Sowing":
+                    #    ws["crop"]["residueParams"]["PartAOM_to_AOM_Fast"][0] = params["PartAOM_to_AOM_Fast"]
 
     sent_id = 0
     start_send = time.clock()
     simulated_cells = 0
     no_kreis = 0
+    counter_debug = 0
 
     #bkr2lk = defaultdict(set) #for additional info
     #soilty2iniSOC = defaultdict(list) #for additional info
@@ -728,7 +737,8 @@ def producer(setup=None):
     if SOC_STUDY:
         #investigate parameter uncertainty
         for p_id in param_vals.keys():
-            run_params_id.append(p_id)
+            run_params_id.append(int(p_id))
+        run_params_id = sorted(run_params_id)
     else:
         #use only best parameter set
         run_params_id.append("best")
@@ -832,8 +842,15 @@ def producer(setup=None):
                         continue
 
                 for p_id in run_params_id:
-                    #set_initial_SOC(SOC_ini_vals[p_id][unique_id])# vals at the beginning of spinup TODO uncomment once initial SOC is available
-
+                    if p_id in SOC_ini_vals.keys() and unique_id in SOC_ini_vals[p_id].keys():
+                        set_initial_SOC(SOC_ini_vals[p_id][unique_id])# vals at the beginning of spinup
+                        #print("p_id {0}, unique_id {1} - OK!".format(str(p_id), str(unique_id)))
+                        #counter_debug += 1
+                        #print counter_debug
+                    else:
+                        print ("initial SOC not found for p_id: {0} and unique_id: {1}".format(str(p_id), str(unique_id)))
+                        exit()
+                    
                     #spinup period (1971-2004):
                     rotation_spinup = rotations_spinup[str(bkr_id)][rot_id]
                     ext_rot_spinup = extend_rotation(rotation_spinup, 4)
@@ -869,7 +886,7 @@ def producer(setup=None):
                         "climate": ""
                     })
 
-                    #set_params(env, param_vals[p_id])
+                    set_params(env, param_vals[p_id])
 
                     #assign amount of organic fertilizer
                     for sim_period in range(2):
@@ -927,13 +944,14 @@ def producer(setup=None):
                                             + "|" + suffix \
                                             + "|" + KA5_txt \
                                             + "|" + soil_type \
-                                            + "|" + p_id \
-                                            + "|" + str(orgN_kreise[kreis_id])
+                                            + "|" + str(p_id) \
+                                            + "|" + str(orgN_kreise[kreis_id]) \
+                                            + "|" + unique_id
                             
                             
                             socket.send_json(env)
                             print "sent env ", sent_id, " customId: ", env["customId"]
-                            exit()
+                            #exit()
                             sent_id += 1
                             rotate(env["cropRotations"][1]["cropRotation"]) #only simperiod2 is rotated
                             
@@ -993,7 +1011,7 @@ def producer(setup=None):
 topsoil_carbon = {}
 '''
 
-with open("setup_sims_test.csv") as setup_file:
+with open("setup_sims_SOC_study.csv") as setup_file:
     setups = []
     reader = csv.reader(setup_file)
     reader.next()
@@ -1023,10 +1041,10 @@ with open("setup_sims_test.csv") as setup_file:
         }
         setups.append(setup)
 
-#for setup in setups:
-#    producer(setup)
+for setup in setups:
+    producer(setup)
 
-producer()
+#producer()
 
 #with open("topsoilC.csv", "wb") as _:
 #    writer = csv.writer(_, delimiter=",")

@@ -1,0 +1,25 @@
+ID,Purpose,Timeframe,Fert strategy,Residues management,Cover crops,Production level,rcp,climate model,yield,"humbal correction (heavy, medium, light soils)"
+0,SOC_study,continuous,BASE,theoretical,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+1,SOC_study,continuous,BASE,theoretical,1_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+2,SOC_study,continuous,BASE,theoretical,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+3,SOC_study,continuous,BASE,theoretical,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+4,SOC_study,continuous,BASE,zero,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+5,SOC_study,continuous,BASE,zero,1_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+6,SOC_study,continuous,BASE,zero,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+7,SOC_study,continuous,BASE,zero,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+8,SOC_study,continuous,BASE,base,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+9,SOC_study,continuous,BASE,base,1_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+10,SOC_study,continuous,BASE,base,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+11,SOC_study,continuous,BASE,base,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,
+12,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,0-0-0
+13,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,1_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,0-0-0
+14,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,0-0-0
+15,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,0-0-0
+16,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,200-200-200
+17,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,1_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,200-200-200
+18,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,200-200-200
+19,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,200-200-200
+20,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,400-400-400
+21,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,1_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,400-400-400
+22,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,400-400-400
+23,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,400-400-400

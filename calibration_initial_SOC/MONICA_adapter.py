@@ -33,6 +33,9 @@ class monica_adapter(object):
 
         self.evallist = []
 
+        #debug
+        #vector = [1.1765, 0.3031]
+
         #set params according to spotpy sampling
         soil_profile_params = self.env["params"]["siteParameters"]["SoilProfileParameters"]
         for i in range(len(vector)):
