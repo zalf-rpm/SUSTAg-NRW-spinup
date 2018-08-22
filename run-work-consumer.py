@@ -144,7 +144,7 @@ def create_crop_output(oids, row, col, rotation, prod_level, values, use_seconda
                     vals[oid["displayName"]] = val
 
             rootCrop =  is_root_crop(vals["Crop"])
-            if residue_humus_balance and vals.get("Year", 0) >= 2005:
+            if residue_humus_balance and vals.get("Year", 0) >= 2003:
                 return_residues = vals.get("optCarbonReturnedResidues", "NA")
                 export_residues = vals.get("optCarbonExportedResidues", "NA")
             else:

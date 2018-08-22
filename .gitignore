@@ -47,5 +47,6 @@ params_uncertainty/observations*
 params_uncertainty/*.png
 settings_SOC_study/merge
 SOC_out/
+debug/
 
 *.pyc

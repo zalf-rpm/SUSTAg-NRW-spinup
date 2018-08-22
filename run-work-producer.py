@@ -390,6 +390,8 @@ def producer(setup=None):
     for cp in crop["crops"].iteritems():
         if "_SU" in cp[0]:
             modify_2ry_yield_params(cp, "base")
+        if RESIDUES_HUMUS_BALANCE:
+            continue
         else:
             modify_2ry_yield_params(cp, EXPORT_RATE)
 

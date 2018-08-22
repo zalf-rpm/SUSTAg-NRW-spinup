@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import json
 
-def aggregate_SOC_results():
+def aggregate_SOC_results(exclude_files):
     print ("start crunching data - aggregate permutations of rotations...")
 
     def one_liner_SOC(df, exp_id, res_mgt, cc):
@@ -24,11 +24,22 @@ def aggregate_SOC_results():
         return header
 
     basepath = os.path.dirname(os.path.abspath(__file__))
-    file_dir = basepath + "/SOC_out/"
+    file_dir = basepath + "/out_ids_12-23/" #TODO change this if needed
     SOC_files = [f for f in os.listdir(file_dir) if os.path.isfile(os.path.join(file_dir, f))]
+    processed_files = 0
+    total_files = len(SOC_files)
 
     for fname in SOC_files:
-        print("processing " + fname)
+        skip_file = False
+        for exc in exclude_files:
+            if exc in fname:
+                skip_file = True
+        if skip_file:
+            processed_files +=1
+            print("skipping " + fname)
+            continue
+        processed_files +=1
+        print("processing " + fname + ": file " + str(processed_files) + " out of: " + str(total_files))
         split_name = fname.split("_")
         exp_id = split_name[1]
         res_mgt = split_name[4].replace("res-", "")
@@ -86,8 +97,50 @@ def concatenate_files():
     merged_df.to_csv(out_dir + "00_SOC_data.csv")
     print("done!")
 
-#aggregate_SOC_results()
-#concatenate_files()
+def add_humbal_info_SOC():
+    print("adding humbal information to the crunched output")
+    basepath = os.path.dirname(os.path.abspath(__file__))
+    file_dir = basepath + "/out_ids_12-23/aggregated/"
+    SOC_files = [f for f in os.listdir(file_dir) if os.path.isfile(os.path.join(file_dir, f))]
+
+    ids_2_humbal = {
+        "id12": "humbal_0",
+        "id14": "humbal_0",
+        "id15": "humbal_0",
+
+        "id16": "humbal_200",
+        "id18": "humbal_200",
+        "id19": "humbal_200",
+
+        "id20": "humbal_400",
+        "id22": "humbal_400",
+        "id23": "humbal_400"
+    }
+    
+    for fname in SOC_files:
+        split_name = fname.split("_")
+        exp_id = split_name[1]
+        humbal = ids_2_humbal[exp_id]
+
+        print("processing " + fname)
+        towrite = []
+        with open(file_dir + fname) as _:
+            reader = csv.reader(_)
+            towrite.append(reader.next())
+            for l in reader:
+                l[1] = humbal
+                towrite.append(l)
+        with open(file_dir + fname, "wb") as _:
+            writer = csv.writer(_)
+            for l in towrite:
+                writer.writerow(l)
+
+    print("done!")
+
+#exclude_files = ["_crop", "id1_", "id5_", "id9_"]
+#aggregate_SOC_results(exclude_files)
+#add_humbal_info_SOC()
+concatenate_files()
 
 def rotation_info():
     print("gathering rotation infos...")
@@ -173,7 +226,4 @@ def add_cc_info_SOC():
                 writer.writerow(l)
     print("done!")
 
-
-
-
-add_cc_info_SOC()
+#add_cc_info_SOC()
