@@ -75,28 +75,28 @@ plot_RF_SOC4750<-sort(importance(RF_SOC4750, type=1)[,1], decreasing=FALSE)
 data_long <- gather(dataset, year, rel_SOC, SOC7174:SOC4750, factor_key=TRUE)
 #data_long <- gather(sample_dataset, year, rel_SOC, SOC7174:SOC4750, factor_key=TRUE)
 
-#convert years (e.g. SOC7174) to numbers (1972)
+#convert years (e.g. SOC7174) to numbers (1974)
 data_long$year <- as.character(data_long$year)
-data_long$year[data_long$year == "SOC7174"] <- "1972"
-data_long$year[data_long$year == "SOC7578"] <- "1976"
-data_long$year[data_long$year == "SOC7982"] <- "1980"
-data_long$year[data_long$year == "SOC8386"] <- "1984"
-data_long$year[data_long$year == "SOC8790"] <- "1988"
-data_long$year[data_long$year == "SOC9194"] <- "1992"
-data_long$year[data_long$year == "SOC9598"] <- "1996"
-data_long$year[data_long$year == "SOC9902"] <- "2000"
-data_long$year[data_long$year == "SOC0306"] <- "2004"
-data_long$year[data_long$year == "SOC0710"] <- "2008"
-data_long$year[data_long$year == "SOC1114"] <- "2012"
-data_long$year[data_long$year == "SOC1518"] <- "2016"
-data_long$year[data_long$year == "SOC1922"] <- "2020"
-data_long$year[data_long$year == "SOC2326"] <- "2024"
-data_long$year[data_long$year == "SOC2730"] <- "2028"
-data_long$year[data_long$year == "SOC3134"] <- "2032"
-data_long$year[data_long$year == "SOC3538"] <- "2036"
-data_long$year[data_long$year == "SOC3942"] <- "2040"
-data_long$year[data_long$year == "SOC4346"] <- "2044"
-data_long$year[data_long$year == "SOC4750"] <- "2048"
+data_long$year[data_long$year == "SOC7174"] <- "1974"
+data_long$year[data_long$year == "SOC7578"] <- "1978"
+data_long$year[data_long$year == "SOC7982"] <- "1982"
+data_long$year[data_long$year == "SOC8386"] <- "1986"
+data_long$year[data_long$year == "SOC8790"] <- "1990"
+data_long$year[data_long$year == "SOC9194"] <- "1994"
+data_long$year[data_long$year == "SOC9598"] <- "1998"
+data_long$year[data_long$year == "SOC9902"] <- "2002"
+data_long$year[data_long$year == "SOC0306"] <- "2006"
+data_long$year[data_long$year == "SOC0710"] <- "2010"
+data_long$year[data_long$year == "SOC1114"] <- "2014"
+data_long$year[data_long$year == "SOC1518"] <- "2018"
+data_long$year[data_long$year == "SOC1922"] <- "2022"
+data_long$year[data_long$year == "SOC2326"] <- "2026"
+data_long$year[data_long$year == "SOC2730"] <- "2030"
+data_long$year[data_long$year == "SOC3134"] <- "2034"
+data_long$year[data_long$year == "SOC3538"] <- "2038"
+data_long$year[data_long$year == "SOC3942"] <- "2042"
+data_long$year[data_long$year == "SOC4346"] <- "2046"
+data_long$year[data_long$year == "SOC4750"] <- "2050"
 #data_long$year_numeric <- as.numeric(data_long$year)
 data_long$year_factor <- as.factor(data_long$year)
 

@@ -253,7 +253,7 @@ def soc_trajectories_plus(start_year, end_year):
                 produce_plot(base_dir + "/SOC/" + str(rot_id) + ".png", years, SOC_traj, deltaSOCs, title=str(rot_id))
         short_report(base_dir + "/SOC/short_report.csv", rot_deltaSOCs)
 
-soc_trajectories_plus(2031, 2050)
+#soc_trajectories_plus(2031, 2050)
 
 def aggregate_results():
 
@@ -319,7 +319,7 @@ def aggregate_results():
 
 def concatenate_files():    
     #base_dir = "C:/Users/stella/Documents/GitHub/SUSTAg-NRW/out/id51/"
-    base_dir = "C:/Users/stella/Desktop/split_these/splitted/41/"
+    base_dir = "Z:/projects/sustag/spinup-version/out_paper1/16-10-18/tagged/splitted/"
     
     id_sim = ""
     for dirName, subdirList, fileList in os.walk(base_dir):
@@ -339,5 +339,186 @@ def concatenate_files():
                 print("id sim " + id_sim + f_type + " processed!")
 
 #concatenate_files()
+
+
+def aggregate_results_paper1():
+
+    time_slices = [
+        {
+            "start": 1985,
+            "end": 2004,
+            "relative": [],
+            "is_reference": True
+        },
+        {
+            "start": 2021,
+            "end": 2040,
+            "relative": [],
+            "is_reference": True
+        },
+        {
+            "start": 2041,
+            "end": 2060,
+            "relative": [],
+            "is_reference": True
+        }
+    ]
+    time_slices_SOC = [
+        {
+            "start": 2000,
+            "end": 2004,
+            "relative": [],
+            "is_reference": True
+        },
+        {
+            "start": 2026,
+            "end": 2030,
+            "relative": ["SOCavg"],
+            "is_reference": False
+        },
+        {
+            "start": 2046,
+            "end": 2050,
+            "relative": ["SOCavg"],
+            "is_reference": False
+        }
+    ]
+
+    no_avg = ["IDcell", "crop", "rotation", "soiltype", "id", "bkr", "tf", "fert", "res", "cc", "pl"]
+
+    def one_liner(df, calcSOC=True):
+        line = []
+        ref_vars = {}
+        #add plain output
+        for column in df:
+            if column == "year":
+                continue
+            if column in no_avg:
+                line.append(df[column].iloc[0])
+        #add sliced output
+        for column in df:
+            if column == "year":
+                continue
+            if column not in no_avg:
+                if column == "SOCavg":
+                    continue
+                for ts in time_slices:
+                    var_arr = df[column].loc[(df["year"] >= ts["start"]) & 
+                                                (df["year"] <= ts["end"])]
+                    my_var = round(var_arr.mean(), 2)
+                    line.append(my_var)
+        #SOC has a different slicing
+        if calcSOC:
+            column = "SOCavg"
+            for ts in time_slices_SOC:
+                var_arr = df[column].loc[(df["year"] >= ts["start"]) & 
+                                            (df["year"] <= ts["end"])]
+                my_var = round(var_arr.mean() * 100, 2) #kg kg-1 -> %
+                #add to reference map
+                if ts["is_reference"]:
+                    ref_vars[column] = my_var
+                line.append(my_var) #abs val
+                #calc relative change if needed
+                if column in ts["relative"]:
+                    my_var = round((my_var - ref_vars[column]) / ref_vars[column] * 100, 2)
+                    line.append(my_var) #rel val
+        return line
+    
+    def prepare_header(df, SOC_columns=False):
+        header = []
+        for column in df:
+            if column == "year":
+                continue
+            if column not in no_avg:
+                #other vars will be "sliced", see below
+                continue
+            header.append(column)
+        #add sliced output
+        for column in df:
+            if column == "year":
+                continue
+            if column not in no_avg:
+                if column == "SOCavg":
+                    continue
+                for ts in time_slices:
+                    var_name = column
+                    var_name += "_" + str(ts["start"])
+                    var_name += "_" + str(ts["end"])
+                    header.append(var_name) #abs val
+                    if column in ts["relative"]:
+                        var_name += "_rel" 
+                        header.append(var_name) #rel val
+        #SOC has a different slicing
+        column = "SOCavg"
+        if SOC_columns:
+            for ts in time_slices_SOC:
+                var_name = column
+                var_name += "_" + str(ts["start"])
+                var_name += "_" + str(ts["end"])
+                header.append(var_name) #abs val
+                if column in ts["relative"]:
+                    var_name += "_rel"
+                    header.append(var_name) #rel val
+        return header
+    
+
+    #base_dir = "Z:/projects/sustag/spinup-version/out_paper1/01-10-18/tagged/splitted/"
+    base_dir = "Z:/projects/sustag/spinup-version/out_paper1/16-10-18/tagged/splitted/"
+    for dirName, subdirList, fileList in os.walk(base_dir):
+        print('Found directory: %s' % dirName)
+        if "/aggregated" in dirName:
+            #no need to process processed files :)
+            continue            
+        for fname in fileList:
+            #if "134_id0" not in fname:
+            #    continue
+            #if "crop" not in fname:
+            #    continue
+            print("reading " + fname)
+            towrite = []
+            header = []
+            #print('\t%s' % fname)
+            my_df = pd.read_csv(dirName + "/" + fname)
+            #print my_df.head()
+            id_cells = set(my_df["IDcell"])
+
+            for cell in id_cells:
+                #if cell != 434195:
+                #    continue
+                cell_data = my_df.loc[(my_df["IDcell"] == cell)]
+                rotations = set(cell_data["rotation"])
+
+                for rot in rotations:
+                    #if rot != 7130:
+                    #    continue
+                    cell_rot_data = cell_data.loc[(cell_data["rotation"] == rot)]
+
+                    if "_year" in fname:
+                        if len(header) == 0:
+                            header = prepare_header(cell_rot_data, SOC_columns=True)
+                            towrite.append(header)
+                        towrite.append(one_liner(cell_rot_data))
+
+                    if "_crop" in fname:
+                        if len(header) == 0:
+                            header = prepare_header(cell_rot_data)
+                            towrite.append(header)
+                        crops = set(cell_rot_data["crop"])
+                        for cp in crops:
+                            #if cp != "mustard_":
+                            #    continue
+                            cell_rot_crop_data = cell_rot_data.loc[(cell_rot_data["crop"] == cp)]
+                            towrite.append(one_liner(cell_rot_crop_data, calcSOC=False))
+            
+            out_dir = dirName + "/aggregated/"
+            if not os.path.exists(out_dir):
+                os.makedirs(out_dir)
+
+            with open(out_dir + "/" + fname, "wb") as _:
+                writer = csv.writer(_)
+                for line in towrite:
+                    writer.writerow(line)        
+
+aggregate_results_paper1()
 
 print "finished!"

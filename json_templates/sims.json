@@ -282,6 +282,27 @@
 										
 			]
 		}
+	},
+		
+	"general_data":{
+		"WL.NL.rain": {
+		"NitrogenResponseOn": true,
+		"WaterDeficitResponseOn": true,
+		"UseAutomaticIrrigation": false,
+		"UseNMinMineralFertilisingMethod": true,
+		"FrostKillOn": false,
+		"output": [
+				{
+					"from": "2005-01-01", 
+					"to": "2050-12-31"
+				},
+				[
+					["Clay|Clay", [1, 3, "AVG"], "FIRST"],
+					["Tavg|Tavg", "AVG"],
+					["Precip|Precip", "AVG"],
+					["Slope|Slope", "FIRST"]
+				]		
+			]
+		}
 	}
-	
 }

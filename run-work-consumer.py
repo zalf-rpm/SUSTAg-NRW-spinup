@@ -35,6 +35,9 @@ import monica_io
 import re
 
 LOCAL_RUN = False
+SOC_STUDY = False #if true, run only unique cells with multiple parameters sets
+SAVE_TO_EXTERNAL_DRIVE = False
+ext_drive_path = "E:/sustag_out/"
 
 def deltaSOC_perc(SOCini, SOCend):
     deltaSOC = 0
@@ -79,7 +82,7 @@ def cyclelength(sowing, harvest):
     harvest = datetime.strptime(harvest, "%Y-%m-%d")
     return (harvest - sowing).days
 
-def create_year_output(oids, row, col, rotation, prod_level, values, start_recording_out, KA5_txt, soil_type):
+def create_year_output(oids, row, col, rotation, prod_level, values, start_recording_out, KA5_txt, soil_type, main_cp_iteration):
     "create year output lines"
     row_col = "{}{:03d}".format(row, col)
     out = []
@@ -118,6 +121,7 @@ def create_year_output(oids, row, col, rotation, prod_level, values, start_recor
                     vals.get("Tavg", "NA"),
                     KA5_txt,
                     soil_type
+                    #main_cp_iteration
                     #vals.get("Clay", "NA"),
                     #vals.get("Silt", "NA"),
                     #vals.get("Sand", "NA")
@@ -126,7 +130,7 @@ def create_year_output(oids, row, col, rotation, prod_level, values, start_recor
     return out
 
 
-def create_crop_output(oids, row, col, rotation, prod_level, values, use_secondary_yields, start_recording_out, residue_humus_balance):
+def create_crop_output(oids, row, col, rotation, prod_level, values, use_secondary_yields, start_recording_out, residue_humus_balance, main_cp_iteration):
     "create crop output lines"
     row_col = "{}{:03d}".format(row, col)
     out = []
@@ -151,68 +155,70 @@ def create_crop_output(oids, row, col, rotation, prod_level, values, use_seconda
                 return_residues, export_residues = retuned_exported_residues(float(vals["AbBiom"]), float(vals["Yield"]), float(vals["SecondaryYield"]), use_secondary_yields, rootCrop)
 
             if vals.get("Year", 0) >= start_recording_out and not skip(vals.get("Harvest"), last_year):
-                out.append([
-                    row_col,
-                    rotation,
-                    vals.get("Crop", "NA").replace("/", "_").replace(" ", "-"),
-                    #prod_level,
-                    vals.get("Year", "NA"),
-                    #cyclelength(vals.get("Sowing"), vals.get("Harvest")),
-                    #deltaSOC_perc(vals.get("SOCini", 0), vals.get("SOCend", 0)),
-                    #vals.get("Rh", "NA"),
-                    #vals.get("NEP", "NA"),
-                    vals.get("Yield", "NA"),
-                    #vals.get("AbBiom", "NA"),
-                    vals.get("LAI", "NA"),
-                    #vals.get("Stage", "NA"),
-                    #vals.get("RelDev", "NA"),
-                    #vals.get("Act_ET", "NA"),
-                    #vals.get("Act_Ev", "NA"),
-                    #vals.get("PercolationRate", "NA"),
-                    #vals.get("Irrig", "NA"),
-                    #vals.get("NLeach", "NA"),
-                    #vals.get("ActNup", "NA"),
-                    #vals.get("NFert", "NA"),
-                    #vals.get("NOrgFert", "NA"),
-                    #vals.get("N2O", "NA"),
-                    #vals.get("Nstress", "NA"),
-                    #vals.get("TraDef", "NA"),
-                    export_residues,
-                    return_residues,
-                    vals.get("humusBalanceCarryOver", "NA")
-                ])
-                '''
-                out.append([
-                    row_col,
-                    rotation,
-                    vals.get("Crop", "NA").replace("/", "_").replace(" ", "-"),
-                    prod_level,
-                    vals.get("Year", "NA"),
-                    cyclelength(vals.get("Sowing"), vals.get("Harvest")),
-                    deltaSOC_perc(vals.get("SOCini", 0), vals.get("SOCend", 0)),
-                    vals.get("Rh", "NA"),
-                    vals.get("NEP", "NA"),
-                    vals.get("Yield", "NA"),
-                    vals.get("AbBiom", "NA"),
-                    vals.get("LAI", "NA"),
-                    vals.get("Stage", "NA"),
-                    vals.get("RelDev", "NA"),
-                    vals.get("Act_ET", "NA"),
-                    vals.get("Act_Ev", "NA"),
-                    vals.get("PercolationRate", "NA"),
-                    #vals.get("Irrig", "NA"),
-                    vals.get("NLeach", "NA"),
-                    vals.get("ActNup", "NA"),
-                    vals.get("NFert", "NA"),
-                    vals.get("NOrgFert", "NA"),
-                    vals.get("N2O", "NA"),
-                    vals.get("Nstress", "NA"),
-                    vals.get("TraDef", "NA"),
-                    export_residues,
-                    return_residues,
-                    vals.get("humusBalanceCarryOver", "NA")
-                ])
-                '''
+                if SOC_STUDY:
+                    out.append([
+                        row_col,
+                        rotation,
+                        vals.get("Crop", "NA").replace("/", "_").replace(" ", "-"),
+                        #prod_level,
+                        vals.get("Year", "NA"),
+                        #cyclelength(vals.get("Sowing"), vals.get("Harvest")),
+                        #deltaSOC_perc(vals.get("SOCini", 0), vals.get("SOCend", 0)),
+                        #vals.get("Rh", "NA"),
+                        #vals.get("NEP", "NA"),
+                        vals.get("Yield", "NA"),
+                        #vals.get("AbBiom", "NA"),
+                        vals.get("LAI", "NA"),
+                        #vals.get("Stage", "NA"),
+                        #vals.get("RelDev", "NA"),
+                        #vals.get("Act_ET", "NA"),
+                        #vals.get("Act_Ev", "NA"),
+                        #vals.get("PercolationRate", "NA"),
+                        #vals.get("Irrig", "NA"),
+                        #vals.get("NLeach", "NA"),
+                        #vals.get("ActNup", "NA"),
+                        #vals.get("NFert", "NA"),
+                        #vals.get("NOrgFert", "NA"),
+                        #vals.get("N2O", "NA"),
+                        #vals.get("Nstress", "NA"),
+                        #vals.get("TraDef", "NA"),
+                        export_residues,
+                        return_residues,
+                        vals.get("humusBalanceCarryOver", "NA")
+                    ])
+                
+                else:
+                    out.append([
+                        row_col,
+                        rotation,
+                        vals.get("Crop", "NA").replace("/", "_").replace(" ", "-"),
+                        prod_level,
+                        vals.get("Year", "NA"),
+                        cyclelength(vals.get("Sowing"), vals.get("Harvest")),
+                        deltaSOC_perc(vals.get("SOCini", 0), vals.get("SOCend", 0)),
+                        vals.get("Rh", "NA"),
+                        vals.get("NEP", "NA"),
+                        vals.get("Yield", "NA"),
+                        vals.get("AbBiom", "NA"),
+                        vals.get("LAI", "NA"),
+                        vals.get("Stage", "NA"),
+                        vals.get("RelDev", "NA"),
+                        vals.get("Act_ET", "NA"),
+                        vals.get("Act_Ev", "NA"),
+                        vals.get("PercolationRate", "NA"),
+                        #vals.get("Irrig", "NA"),
+                        vals.get("NLeach", "NA"),
+                        vals.get("ActNup", "NA"),
+                        vals.get("NFert", "NA"),
+                        vals.get("NOrgFert", "NA"),
+                        vals.get("N2O", "NA"),
+                        vals.get("Nstress", "NA"),
+                        vals.get("TraDef", "NA"),
+                        export_residues,
+                        return_residues,
+                        vals.get("humusBalanceCarryOver", "NA")
+                        #main_cp_iteration
+                    ])
 
     return out
 
@@ -240,43 +246,49 @@ def update_pheno_output(oids, row, col, rotation, prod_level, values, pheno_data
 def write_data(region_id, year_data, crop_data, pheno_data, soc_data, suffix):
     "write data"
 
-    path_to_crop_file = "out/" + str(region_id) + suffix + "crop.csv"
-    path_to_year_file = "out/" + str(region_id) + suffix + "year.csv"
-    path_to_pheno_file = "out/" + str(region_id) + suffix + "pheno.csv"
-    path_to_SOC_file = "out/" + str(region_id) + suffix + "soc.csv"
+    basepath = "out/"
+    if SAVE_TO_EXTERNAL_DRIVE:
+        basepath = ext_drive_path
 
-    '''
-    if not os.path.isfile(path_to_year_file):
-        with open(path_to_year_file, "w") as _:
-            _.write("IDcell,rotation,prodlevel,year,deltaOC,SOCavg,CO2emission,NEP,ET,EV,waterperc,Nleach,Nup,Nminfert,Norgfert,N2Oem,Precip,yearTavg,KA5class,soiltype\n")
+    path_to_crop_file = basepath + str(region_id) + suffix + "crop.csv"
+    path_to_year_file = basepath + str(region_id) + suffix + "year.csv"
+    path_to_pheno_file = basepath + str(region_id) + suffix + "pheno.csv"
+    path_to_SOC_file = basepath + str(region_id) + suffix + "soc.csv"
 
-    with open(path_to_year_file, 'ab') as _:
-        writer = csv.writer(_, delimiter=",")
-        for row_ in year_data[region_id]:
-            writer.writerow(row_)
-        year_data[region_id] = []
-    '''
+    if not SOC_STUDY:
+        if not os.path.isfile(path_to_year_file):
+            with open(path_to_year_file, "w") as _:
+                _.write("IDcell,rotation,prodlevel,year,deltaOC,SOCavg,CO2emission,NEP,ET,EV,waterperc,Nleach,Nup,Nminfert,Norgfert,N2Oem,Precip,yearTavg,KA5class,soiltype\n")
+
+        with open(path_to_year_file, 'ab') as _:
+            writer = csv.writer(_, delimiter=",")
+            for row_ in year_data[region_id]:
+                writer.writerow(row_)
+            year_data[region_id] = []
 
     if not os.path.isfile(path_to_crop_file):
         with open(path_to_crop_file, "w") as _:
-            #_.write("IDcell,rotation,crop,prodlevel,year,cyclelength,deltaOC,CO2emission,NEP,yield,agb,LAImax,Stageharv,RelDev,ET,EV,waterperc,Nleach,Nup,Nminfert,Norgfert,N2Oem,Nstress,Wstress,ExportResidues,ReturnResidues,CarryOver\n")
-            _.write("IDcell,rotation,crop,year,yield,LAImax,ExportResidues,ReturnResidues,CarryOver\n")
+            if SOC_STUDY:
+                _.write("IDcell,rotation,crop,year,yield,LAImax,ExportResidues,ReturnResidues,CarryOver\n")
+            else:
+                _.write("IDcell,rotation,crop,prodlevel,year,cyclelength,deltaOC,CO2emission,NEP,yield,agb,LAImax,Stageharv,RelDev,ET,EV,waterperc,Nleach,Nup,Nminfert,Norgfert,N2Oem,Nstress,Wstress,ExportResidues,ReturnResidues,CarryOver\n")
 
     with open(path_to_crop_file, 'ab') as _:
         writer = csv.writer(_, delimiter=",")
         for row_ in crop_data[region_id]:
             writer.writerow(row_)
         crop_data[region_id] = []
+    
+    if SOC_STUDY:
+        if not os.path.isfile(path_to_SOC_file):
+            with open(path_to_SOC_file, "w") as _:
+                _.write("row_col,rotation,p_id,KA5_txt,soil_type,orgN_kreis,unique_id,SOC7174,SOC7578,SOC7982,SOC8386,SOC8790,SOC9194,SOC9598,SOC9902,SOC0306,SOC0710,SOC1114,SOC1518,SOC1922,SOC2326,SOC2730,SOC3134,SOC3538,SOC3942,SOC4346,SOC4750\n")
 
-    if not os.path.isfile(path_to_SOC_file):
-        with open(path_to_SOC_file, "w") as _:
-            _.write("row_col,rotation,p_id,KA5_txt,soil_type,orgN_kreis,unique_id,SOC7174,SOC7578,SOC7982,SOC8386,SOC8790,SOC9194,SOC9598,SOC9902,SOC0306,SOC0710,SOC1114,SOC1518,SOC1922,SOC2326,SOC2730,SOC3134,SOC3538,SOC3942,SOC4346,SOC4750\n")
-
-    with open(path_to_SOC_file, 'ab') as _:
-        writer = csv.writer(_, delimiter=",")
-        for row_ in soc_data[region_id]:
-            writer.writerow(row_)
-        soc_data[region_id] = []
+        with open(path_to_SOC_file, 'ab') as _:
+            writer = csv.writer(_, delimiter=",")
+            for row_ in soc_data[region_id]:
+                writer.writerow(row_)
+            soc_data[region_id] = []
     
     #if not os.path.isfile(path_to_pheno_file):
     #    with open(path_to_pheno_file, "w") as _:
@@ -313,6 +325,7 @@ def collector():
     #context.setsockopt(zmq.IDENTITY, "ts_sustag_nrw")
     if LOCAL_RUN:
         socket.connect("tcp://localhost:7777")
+        #socket.connect("tcp://10.10.26.34:7777")
     else:
         socket.connect("tcp://cluster1:7777")
     socket.RCVTIMEO = 1000
@@ -349,8 +362,11 @@ def collector():
             row_, col_ = ci_parts[3][1:-1].split("/")
             row, col = (int(row_), int(col_))
             region_id = ci_parts[4]
+            main_cp_iteration = ci_parts[5]
             use_secondary_yields = True_False_string(ci_parts[6])
             start_recording_out = int(ci_parts[7])
+            if SOC_STUDY:
+                start_recording_out = 2045 #for SOC study, crop out is used only to check setup correctness
             residue_humus_balance = True_False_string(ci_parts[8])
             suffix = ci_parts[9]
             KA5_txt = ci_parts[10]
@@ -375,12 +391,13 @@ def collector():
                 output_ids = data.get("outputIds", [])
                 if len(results) > 0:
                     if orig_spec == '"yearly"':
-                        continue #TODO just for SOC study
-                        res = create_year_output(output_ids, row, col, rotation, prod_level, results, start_recording_out, KA5_txt, soil_type)
-                        year_data[region_id].extend(res)
+                        if SOC_STUDY:
+                            continue
+                        else:
+                            res = create_year_output(output_ids, row, col, rotation, prod_level, results, start_recording_out, KA5_txt, soil_type, main_cp_iteration)
+                            year_data[region_id].extend(res)
                     elif orig_spec == '"crop"':
-                        #res = create_crop_output(output_ids, row, col, rotation, prod_level, results, use_secondary_yields, start_recording_out, residue_humus_balance)
-                        res = create_crop_output(output_ids, row, col, rotation, prod_level, results, use_secondary_yields, 2045, residue_humus_balance) #TODO: for SOC study, crop out is used only to check setup correctness
+                        res = create_crop_output(output_ids, row, col, rotation, prod_level, results, use_secondary_yields, start_recording_out, residue_humus_balance, main_cp_iteration)
                         crop_data[region_id].extend(res)
                     elif re.search('from', orig_spec):
                         #only SOC is recorded with "from" "to"
@@ -391,7 +408,7 @@ def collector():
 
             for region_id in crop_data.keys():
                 if len(crop_data[region_id]) > start_writing_lines_threshold:
-                    write_data(region_id, crop_data, crop_data, pheno_data, soc_data, suffix)
+                    write_data(region_id, year_data, crop_data, pheno_data, soc_data, suffix)
 
             i = i + 1
 

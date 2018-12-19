@@ -1,10 +1,2 @@
 ID,Purpose,Timeframe,Fert strategy,Residues management,Cover crops,Production level,rcp,climate model,yield,"humbal correction (heavy, medium, light soils)"
-12,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,0-0-0
-14,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,0-0-0
-15,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,0-0-0
-16,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,200-200-200
-18,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,200-200-200
-19,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,200-200-200
-20,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,400-400-400
-22,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,2_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,400-400-400
-23,SOC_study,continuous,BASE,RESIDUES_HUMUS_BALANCE,4_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,400-400-400
+4,SOC_study,continuous,BASE,zero,0_outof_4,WL.NL.rain,2.6,IPSL-CM5A-LR ,Base,

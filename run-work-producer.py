@@ -51,7 +51,7 @@ PATHS = {
 timeframes = {
     "continuous": {
         "start-date": "1971-01-01",
-        "end-date": "2050-12-31",
+        "end-date": "2060-12-31",
         "start-recording-out": 1971,
         "cluster-path-to-climate": ["/archiv-daten/md/data/climate/isimip/csvs/IPSL-CM5A-LR/historical/earth/", "/archiv-daten/md/data/climate/isimip/csvs/IPSL-CM5A-LR/rcp2p6/germany-nrw/"], #base + rcp 2.6
         "local-path-to-climate": ["z:/data/climate/isimip/csvs/IPSL-CM5A-LR/historical/earth/", "z:/data/climate/isimip/csvs/IPSL-CM5A-LR/rcp2p6/germany-nrw/"] #base + rcp 2.6
@@ -83,7 +83,7 @@ humus_equivalent = {
 #macsur climate data:
 #PATH_TO_CLIMATE_DATA_DIR ="/archiv-daten/md/projects/sustag/MACSUR_WP3_NRW_1x1/" #"Z:/projects/sustag/MACSUR_WP3_NRW_1x1/"
 LOCAL_RUN = False
-SOC_STUDY = True #run only unique cells with multiple parameters sets
+SOC_STUDY = False #if true, run only unique cells with multiple parameters sets
 PARAMETERS_FILE = "params_sample_15.csv"
 
 EXPORT_PRESETS = {
@@ -109,7 +109,63 @@ EXPORT_PRESETS = {
         ("WW", "WB", "SB", "WTr", "GM") : 0,
         ("SM", "WRa", "PO", "SBee") : 0,
         ("CC-M") : 0
+    },
+    "10percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.1,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "20percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.2,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "30percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.3,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "40percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.4,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "50percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.5,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "60percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.6,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "70percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.7,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "80percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.8,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
+    },
+    "90percent": {
+        #testcase
+        ("WW", "WB", "SB", "WTr", "GM") : 0.9,
+        ("SM", "WRa", "PO", "SBee") : 0,
+        ("CC-M") : 0
     }
+
+
 }
 #"_SU" = spin-up: need to duplicate crop, cover crop ad rotations as a workaround for monica_io functioning
 COVER_BEFORE = ["SM", "GM", "SB", "PO", "SBee", "SM_SU", "GM_SU", "SB_SU", "PO_SU", "SBee_SU"]
@@ -262,6 +318,8 @@ def producer(setup=None):
             SOC_ini_vals[param_id][sim_id] = corgs
     
     param_vals = defaultdict(lambda: defaultdict(float))
+    best_p_id = -999
+    best_like = -999
     #load parameters sets (used only for SOC study)
     with open("settings_SOC_study/" + PARAMETERS_FILE) as _:
         reader = csv.reader(_)
@@ -278,6 +336,10 @@ def producer(setup=None):
             #following two params were calibrated using exps 25 and 35 from V140 Muencheberg
             param_vals[param_id]["PartAOM_to_AOM_Fast"] = 0.81
             param_vals[param_id]["PartAOM_to_AOM_Slow"] = 0.19
+            like = float(row[8])
+            if like > best_like:
+                best_like = like
+                best_p_id = param_id
 
         
     def load_rotations(rotations_file, spinup):
@@ -386,14 +448,21 @@ def producer(setup=None):
                 my_rate = EXPORT_PRESETS[export_r][k]
         for organ in cp[1]["cropParams"]["cultivar"]["OrganIdsForSecondaryYield"]:
             organ["yieldPercentage"] *= my_rate
-
+            
     for cp in crop["crops"].iteritems():
+        #correct version
         if "_SU" in cp[0]:
             modify_2ry_yield_params(cp, "base")
-        if RESIDUES_HUMUS_BALANCE:
-            continue
-        else:
+        elif not RESIDUES_HUMUS_BALANCE: #"_SU" not in cp[0]
             modify_2ry_yield_params(cp, EXPORT_RATE)
+        #old version (bugged)
+        #if "_SU" in cp[0]:
+        #    modify_2ry_yield_params(cp, "base")
+        #if RESIDUES_HUMUS_BALANCE:
+        #    continue
+        #else:
+        #    modify_2ry_yield_params(cp, EXPORT_RATE)
+        
 
     sim["UseSecondaryYields"] = True
     sim["include-file-base-path"] = paths["INCLUDE_FILE_BASE_PATH"]
@@ -473,8 +542,9 @@ def producer(setup=None):
         return KA5_txt
 
     def set_initial_SOC(SOC_vals):
-        for layer, val in enumerate(SOC_vals): 
-            site["SiteParameters"]["SoilProfileParameters"][layer]["SoilOrganicCarbon"][0] = val
+        for layer, val in enumerate(SOC_vals):
+            if len(site["SiteParameters"]["SoilProfileParameters"]) > layer:
+                site["SiteParameters"]["SoilProfileParameters"][layer]["SoilOrganicCarbon"][0] = val
 
 
     def read_header(path_to_ascii_grid_file):
@@ -743,12 +813,12 @@ def producer(setup=None):
         run_params_id = sorted(run_params_id)
     else:
         #use only best parameter set
-        run_params_id.append("best")
+        run_params_id.append(best_p_id)
 
     for (row, col), gmd in general_metadata.iteritems():
 
         #test
-        #if int(row) != 505 or int(col) != 58:
+        #if int(row) != 504 or int(col) != 62:
         #    continue
 
         if (row, col) in soil_ids and (row, col) in bkr_ids and (row, col) in lu_ids:
@@ -783,9 +853,10 @@ def producer(setup=None):
                 #bkr2lk[bkr_id].add(kreis_id)
             else:
                 no_kreis += 1
-                print "-----------------------------------------------------"
-                print "kreis not found for calculation of organic N"
-                print "-----------------------------------------------------"
+                print "-----------------------------------------------------------"
+                print "kreis not found for calculation of organic N, skipping cell"
+                print "-----------------------------------------------------------"
+                continue
 
             simulated_cells += 1
 
@@ -849,9 +920,11 @@ def producer(setup=None):
                         #print("p_id {0}, unique_id {1} - OK!".format(str(p_id), str(unique_id)))
                         #counter_debug += 1
                         #print counter_debug
+                        bbb=1
                     else:
                         print ("initial SOC not found for p_id: {0} and unique_id: {1}".format(str(p_id), str(unique_id)))
                         exit()
+                    
                     
                     #spinup period (1971-2004):
                     rotation_spinup = rotations_spinup[str(bkr_id)][rot_id]
@@ -876,7 +949,7 @@ def producer(setup=None):
                         },
                         {
                             "start": (last_date_spinup[str(bkr_id)][rot_id] + timedelta(days=1)).isoformat(),
-                            "end": "2050-12-31",
+                            "end": "2060-12-31",
                             "cropRotation": crop_rot2
                         }
                     ]
@@ -908,6 +981,14 @@ def producer(setup=None):
 
                     for PATH in PATH_TO_CLIMATE_DATA_DIR:
                         env["pathToClimateCSV"].append(PATH + "row-" + str(meteo_id[0]) + "/col-" + str(meteo_id[1]) + ".csv")
+                    
+                    #read dumped event for test purpose:
+                    #comment this after test
+                    #basepath = os.path.dirname(os.path.abspath(__file__))
+                    #d_env = basepath + "/dumped_envs/" + unique_id + ".json"
+                    #with open(d_env) as _:
+                    #    env = json.load(_)
+                    #####
 
                     for sim_id, sim_ in sims.iteritems():
                         if sim_id != PRODUCTION_LEVEL:
@@ -927,7 +1008,7 @@ def producer(setup=None):
                         #    with open(filename, "w") as _:
                         #        _.write(json.dumps(env, indent=4))
                         #        print("dumped env: " + unique_id)
-                        
+
                         
                         for main_cp_iteration in range(0, len(rots_info[int(rot_id)])):
                             #do not allow crop rotation of sim_period2 to start with a CC
@@ -956,7 +1037,7 @@ def producer(setup=None):
                             #exit()
                             sent_id += 1
                             rotate(env["cropRotations"][1]["cropRotation"]) #only simperiod2 is rotated
-                            
+                        #exit()
                     
     #print(len(unique_combos.keys()))
     if export_lat_lon_file:
@@ -1012,8 +1093,11 @@ def producer(setup=None):
     print "done"
 topsoil_carbon = {}
 '''
-
-with open("setup_sims_SOC_study.csv") as setup_file:
+setup_file = "setup_sims_Potential_study.csv"
+if SOC_STUDY:
+    setup_file = "setup_sims_SOC_study.csv"
+    
+with open(setup_file) as setup_file:
     setups = []
     reader = csv.reader(setup_file)
     reader.next()
