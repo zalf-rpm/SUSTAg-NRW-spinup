@@ -24,10 +24,12 @@ def aggregate_SOC_results(exclude_files):
         return header
 
     basepath = os.path.dirname(os.path.abspath(__file__))
-    file_dir = basepath + "/out_ids_12-23/" #TODO change this if needed
+    file_dir = basepath + "/out_rerun/" #TODO change this if needed
     SOC_files = [f for f in os.listdir(file_dir) if os.path.isfile(os.path.join(file_dir, f))]
     processed_files = 0
     total_files = len(SOC_files)
+
+    missing_data = []
 
     for fname in SOC_files:
         skip_file = False
@@ -64,9 +66,13 @@ def aggregate_SOC_results(exclude_files):
                     if len(header) == 0:
                         header = prepare_header(cell_rot_p_id_data)
                         towrite.append(header)
-
-                    towrite.append(one_liner_SOC(cell_rot_p_id_data, exp_id, res_mgt, cc))
-        
+                    try:
+                        towrite.append(one_liner_SOC(cell_rot_p_id_data, exp_id, res_mgt, cc))
+                    except:
+                        missing = (fname, cell, rot, p_id)
+                        print(missing)
+                        missing_data.append(missing)
+                
         out_dir = file_dir + "/aggregated/"
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
@@ -75,12 +81,14 @@ def aggregate_SOC_results(exclude_files):
             writer = csv.writer(_)
             for line in towrite:
                 writer.writerow(line)
+    print("missing:")
+    print missing_data
     print("done!")
 
 def concatenate_files():
     print ("Starting concatentation...")    
     basepath = os.path.dirname(os.path.abspath(__file__))
-    file_dir = basepath + "/SOC_out/aggregated/"
+    file_dir = "Z:/projects/sustag/spinup-version/out_paper2/final_aggregated/" #basepath + "/SOC_out/aggregated/" TODO modify if necessary
     SOC_files = [f for f in os.listdir(file_dir) if os.path.isfile(os.path.join(file_dir, f))]
     dframes = []
 
@@ -137,7 +145,7 @@ def add_humbal_info_SOC():
 
     print("done!")
 
-#exclude_files = ["_crop", "id1_", "id5_", "id9_"]
+exclude_files = ["_crop", "id1_", "id5_", "id9_"]
 #aggregate_SOC_results(exclude_files)
 #add_humbal_info_SOC()
 concatenate_files()

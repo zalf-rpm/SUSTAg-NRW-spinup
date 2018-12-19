@@ -97,11 +97,11 @@ def add_out_colums(col_names, col_vals, directory):
 
 
 #dir_name = "C:/Users/stella/Documents/GitHub/SUSTAg-NRW/out/id51/"
-dir_name = "C:/Users/stella/Desktop/split_these/41_up_to_date/"
+dir_name = "Z:/projects/sustag/spinup-version/out_paper1/16-10-18/tagged/"
 
-extract_vars_cp = ["IDcell", "crop", "rotation", "yield", "Nminfert", "Norgfert", "ExportResidues", "ReturnResidues", "CarryOver", "id", "bkr", "tf", "fert", "res", "cc", "pl"]
+extract_vars_cp = ["IDcell", "crop", "year", "rotation", "yield", "Nminfert", "Norgfert", "ExportResidues", "ReturnResidues", "CarryOver", "id", "bkr", "fert", "res", "cc"]
 #extract_vars_yr = ["IDcell", "year", "rotation", "Nleach", "deltaOC", "CO2emission", "N2Oem", "soiltype", "id", "bkr", "tf", "fert", "res", "cc", "pl"]
-extract_vars_yr = ["IDcell", "year", "rotation", "Nleach", "deltaOC", "soiltype", "id", "bkr", "tf", "fert", "res", "cc", "pl"]
+extract_vars_yr = ["IDcell", "year", "rotation", "Nleach", "SOCavg", "CO2emission", "N2Oem", "soiltype", "id", "bkr", "fert", "res", "cc"]
 
 
 def split_ioanna(suffix, extract_vars, calc_res_ratio=False):
@@ -148,7 +148,54 @@ def split_ioanna(suffix, extract_vars, calc_res_ratio=False):
                     writer.writerow(row_)
             print(filename + " done!")
 
-split_ioanna("_crop", extract_vars_cp, calc_res_ratio=True)
-#split_ioanna("_year", extract_vars_yr)
+def split_ioanna_light(suffix, extract_vars, calc_res_ratio=False):
+    for filename in os.listdir(dir_name):
+        #if filename != "129_id0_continuous_fert-base_res-base_cc-25_pl-WLNLrain_crop.csv":
+        #    continue
+        if ".csv" in filename and suffix in filename:
+            print("opening " + filename)
+            fname = filename.split("_")
+            
+            with open(dir_name + filename) as file_:
+                reader = csv.reader(file_, delimiter=",")
+                header = reader.next()
+                field_map = {}
+                for i in range(len(header)):
+                    field_map[header[i]] = i
+                #rowcount=0
+                
+                out_dir = dir_name + "splitted/" + fname[1][2:]
+                if not os.path.exists(out_dir):
+                    os.makedirs(out_dir)
+                out_name = out_dir + "/" + filename
+
+                with open(out_name, 'wb') as _:
+                    writer = csv.writer(_, delimiter=",")
+                    out_header = []
+                    for ev in extract_vars:
+                        out_header.append(ev)
+                    if calc_res_ratio:
+                        out_header.append("Exp_ratio")
+                    writer.writerow(out_header)
+
+                    for row in reader:
+                        #rowcount +=1
+                        line = []
+                        for v in extract_vars:
+                            line.append(row[field_map[v]])
+                        if calc_res_ratio:
+                            ex_res = float(row[field_map["ExportResidues"]])
+                            ret_res = float(row[field_map["ReturnResidues"]])
+                            try:
+                                ratio = round(ex_res / (ex_res + ret_res), 2)
+                            except:
+                                ratio = 0
+                            line.append(str(ratio))
+                        writer.writerow(line)
+
+            print(filename + " done!")
+
+#split_ioanna_light("_crop", extract_vars_cp, calc_res_ratio=True)
+split_ioanna_light("_year", extract_vars_yr)
 
 print("finished")

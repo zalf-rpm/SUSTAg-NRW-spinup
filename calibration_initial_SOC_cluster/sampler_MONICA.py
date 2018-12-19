@@ -98,7 +98,7 @@ with open(basepath + "/" + config["runs-file"]) as _:
         
 
 #read set of relevant and uncertain params
-uncertain_params = np.genfromtxt(basepath + "/sample_15.csv", dtype=float, delimiter=',', names=True)
+uncertain_params = np.genfromtxt(basepath + "/best.csv", dtype=float, delimiter=',', names=True)
 
 for env_file, profiles in unique_combos:
     print("calibrating " + str(env_file))
